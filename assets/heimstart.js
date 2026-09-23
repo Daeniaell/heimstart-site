@@ -20,11 +20,20 @@
   var easeInOut = function (x) { x = clamp01(x); return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; };
   var backOut = function (x) { x = clamp01(x); var c1 = 1.7, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
 
+  /* ---- Zoomen mit zwei Fingern: nichts neu vermessen ---------------------
+     Mobile Browser melden beim Zoomen den sichtbaren Ausschnitt als Fenstergröße.
+     Engine und Choreografie würden sich auf den Ausschnitt umrechnen und zerfallen.
+     Solange gezoomt ist, erreicht kein resize die Seite; zurück bei 100 % wird
+     einmal neu vermessen (unten). Muss vor der Engine registriert sein. */
+  var vv = window.visualViewport;
+  var zoomed = function () { return !!vv && Math.abs(vv.scale - 1) > 0.01; };
+  addEventListener('resize', function (e) { if (zoomed()) e.stopImmediatePropagation(); }, true);
+
   /* ---- Hochformat oder Querformat entscheidet über den Hero-Clip ----------
      Die Engine nimmt auf jedem Touch-Gerät die Handyfassung, auch am iPad quer.
      Hier wählt die Ausrichtung, passend zum <picture>-Poster (orientation). */
   var heroVideo = document.querySelector('.hero video[data-sc-scrub]');
-  var portrait = innerHeight > innerWidth;
+  var portrait = matchMedia('(orientation: portrait)').matches;
   if (heroVideo) {
     var srcP = heroVideo.getAttribute('data-sc-src-mobile');
     if (portrait && srcP) heroVideo.setAttribute('data-sc-src', srcP);
@@ -57,6 +66,35 @@
   var api = window.ScrollCraft.mount(document.body);
   var actById = {};
   api.acts.forEach(function (a) { if (a.el.id) actById[a.el.id] = a; });
+  // Fensterhöhe wie die Engine sie nutzt, aber nie die eines gezoomten Ausschnitts.
+  var VH = innerHeight;
+
+  /* ---- Alles passt auf jeden Bildschirm ----------------------------------
+     --fit verkleinert Schrift und Abstände einer Bühne nur so weit, dass ihr Inhalt
+     ganz in den Rahmen passt: die größte Stufe zwischen min und 1, für die fits() gilt.
+     Zeilenumbrüche machen den Zusammenhang sprunghaft, daher Halbierung statt Formel.
+     Gemessen wird ohne Transformationen (offset*). */
+  function fitScale(el, fits, min) {
+    el.style.removeProperty('--fit');
+    if (fits()) return;
+    var lo = min, hi = 1;
+    for (var k = 0; k < 7; k++) {
+      var mid = (lo + hi) / 2;
+      el.style.setProperty('--fit', mid.toFixed(3));
+      if (fits()) lo = mid; else hi = mid;
+    }
+    el.style.setProperty('--fit', lo.toFixed(3));
+    fits();
+  }
+  // Stapel mit festem Rahmen (Hero, Fragen, Schluss): need() ist die Höhe des Inhalts,
+  // tol die erlaubte Abweichung (offset* ist auf ganze Pixel gerundet).
+  function fitStack(box, need, min, tol) {
+    if (!box) return;
+    fitScale(box, function () {
+      var cs = getComputedStyle(box);
+      return need() <= box.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom) + tol;
+    }, min);
+  }
 
   /* ======================================================================
      1 · HERO
@@ -66,8 +104,11 @@
     var hs = H.act.el;
     H.stage = hs.querySelector('[data-sc-stage]');
     H.frame = hs.querySelector('.hero__frame');
+    H.intro = hs.querySelector('.hero__intro');
+    H.copy = hs.querySelector('.hero__copy');
     H.listing = hs.querySelector('.listing');
     H.photo = hs.querySelector('.listing__photo');
+    H.meta = hs.querySelector('.listing__meta');
     H.couple = hs.querySelector('.hero__couple');
     H.hedge = hs.querySelector('.hero__hedge');
     H.air = hs.querySelector('.hero__air');
@@ -76,6 +117,12 @@
 
   function heroLayout() {
     if (!H.act) return;
+    // Das Foto gibt zuerst nach (CSS); reicht das nicht, wird die Überschrift kleiner.
+    fitStack(H.intro, function () {
+      var c = H.copy, l = H.listing;
+      return Math.max(c.offsetTop + c.offsetHeight, l.offsetTop + H.meta.offsetTop + H.meta.offsetHeight) -
+        Math.min(c.offsetTop, l.offsetTop);
+    }, 0.55, 1);
     var W = H.stage.clientWidth, Ht = H.stage.clientHeight;
     var prev = H.listing.style.transform;
     H.listing.style.transform = 'none';
@@ -135,6 +182,8 @@
   if (S.act) {
     var ss = S.act.el;
     S.stage = ss.querySelector('[data-sc-stage]');
+    S.layout = ss.querySelector('.storm__layout');
+    S.head = ss.querySelector('.storm__head');
     S.board = ss.querySelector('.storm__board');
     S.day = ss.querySelector('.storm__day');
     S.hush = ss.querySelector('.storm__hush');
@@ -149,6 +198,9 @@
 
   function stormLayout() {
     if (!S.act) return;
+    fitStack(S.layout, function () {
+      return S.board.offsetTop + S.board.offsetHeight - S.head.offsetTop;
+    }, 0.45, -1);
     var W = S.stage.clientWidth, Ht = S.stage.clientHeight;
     S.W = W; S.H = Ht;
     S.items.forEach(function (it) { it.el.style.transform = 'none'; });
@@ -323,7 +375,7 @@
   function phaseFrame() {
     var day = false;
     if (S.act) {
-      var travel = Math.max(S.act.height - innerHeight, 1);
+      var travel = Math.max(S.act.height - VH, 1);
       day = scrollY >= S.act.top + travel * (reduce ? 0.55 : 0.70);
     }
     var next = day ? 'day' : 'night';
@@ -339,19 +391,63 @@
      ====================================================================== */
   var A = { act: actById.antworten };
   if (A.act) {
+    A.stage = A.act.el.querySelector('[data-sc-stage]');
     A.rail = A.act.el.querySelector('[data-sc-pan]');
     A.items = Array.prototype.slice.call(A.act.el.querySelectorAll('.answer, .answers__note'));
+    A.answers = A.items.filter(function (el) { return el.classList.contains('answer'); });
+    A.all = A.items.concat(Array.prototype.slice.call(A.act.el.querySelectorAll('.answers__lead')));
+  }
+  // Jede Antwort steht ganz unter der Leiste, nichts wird abgeschnitten. Reihenfolge:
+  // Bild verkleinern (Gerät höchstens bis 96 px Breite), dann erst die Schrift (--fit).
+  var PH = 2868 / 1320; // Gerät: Höhe je Breite
+  function answersFit() {
+    if (!A.act || reduce) return;
+    var R = A.rail;
+    R.classList.remove('is-side');
+    R.style.removeProperty('--fit');
+    R.style.removeProperty('--pw-fit');
+    R.style.removeProperty('--ph-fit');
+    var cs = getComputedStyle(R);
+    var avail = A.stage.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+    var media = function (el) { return el.querySelector('.phone, .answer__photo'); };
+    var stacked = function () { return getComputedStyle(A.answers[0]).flexDirection === 'column'; };
+    // Höhe, die das Bild haben darf: untereinander nur, was der Text übrig lässt.
+    var room = function (el) { return stacked() ? avail - (el.offsetHeight - media(el).offsetHeight) : avail; };
+    // Bliebe das Gerät untereinander schmaler als 150 px, stehen Gerät und Text nebeneinander.
+    if (stacked()) {
+      var r = Infinity;
+      A.answers.forEach(function (el) { if (media(el).classList.contains('phone')) r = Math.min(r, room(el)); });
+      if (r / PH < 150) R.classList.add('is-side');
+    }
+    var shrink = function () {
+      R.style.removeProperty('--pw-fit');
+      R.style.removeProperty('--ph-fit');
+      var pw = Infinity, ph = Infinity;
+      A.answers.forEach(function (el) {
+        var m = media(el), h = room(el);
+        if (m.offsetHeight <= h + 1) return;
+        if (m.classList.contains('phone')) pw = Math.min(pw, h / PH); else ph = Math.min(ph, h);
+      });
+      if (pw < Infinity) R.style.setProperty('--pw-fit', Math.max(96, pw).toFixed(1) + 'px');
+      if (ph < Infinity) R.style.setProperty('--ph-fit', Math.max(96, ph).toFixed(1) + 'px');
+    };
+    fitScale(R, function () {
+      shrink();
+      return A.all.every(function (el) { return el.offsetHeight <= avail + 1; });
+    }, 0.6);
   }
   function answersLayout() {
     if (!A.act) return;
+    answersFit();
     // Lage im Stage ohne Schienenverschiebung; pro Bild wird nur gerechnet, nicht gemessen.
+    A.W = A.stage.clientWidth;
     A.pos = A.items.map(function (el) { return { el: el, x: el.offsetLeft, w: el.offsetWidth }; });
   }
   function answersFrame() {
     if (!A.act || reduce || !A.act.live || !A.pos) return;
     var m = /translate3d\((-?[\d.]+)px/.exec(A.rail.style.transform || '');
     var shift = m ? parseFloat(m[1]) : 0;
-    var vw = innerWidth;
+    var vw = A.W;
     A.pos.forEach(function (it) {
       var d = Math.abs(it.x + shift + it.w / 2 - vw * 0.5) / (vw * 0.75);
       var k = smooth(d);
@@ -372,26 +468,56 @@
     answersFrame();
   }
   function queue() { if (!queued) { queued = true; requestAnimationFrame(frame); } }
+
+  // Schluss: Text und Fußzeile passen gemeinsam hinein, auch wenn später das
+  // Rechenergebnis oder der Store-Hinweis dazukommt.
+  var C = { act: actById.laden };
+  if (C.act) {
+    C.box = C.act.el.querySelector('.close__layout');
+    C.copy = C.act.el.querySelector('.close__copy');
+    C.foot = C.act.el.querySelector('.foot');
+  }
+  function closeFit() {
+    if (!C.box) return;
+    // Freier Platz zwischen Text und Fußzeile zählt nicht: nur beide Höhen zusammen.
+    fitStack(C.box, function () { return C.copy.offsetHeight + C.foot.offsetHeight; }, 0.5, -1);
+  }
+  if (C.box && window.ResizeObserver) new ResizeObserver(function () { requestAnimationFrame(closeFit); }).observe(C.copy);
+
   function relayout() {
     heroLayout();
     stormLayout();
     answersLayout();
+    closeFit();
     queue();
   }
   addEventListener('scroll', queue, { passive: true });
   var lastW = innerWidth, lastH = innerHeight;
   addEventListener('resize', function () {
+    VH = innerHeight;
     // Nur die Adressleiste? Dann nichts neu vermessen (wie die Engine).
     if (innerWidth === lastW && Math.abs(innerHeight - lastH) < 120) return;
     lastW = innerWidth; lastH = innerHeight;
     relayout();
   }, { passive: true });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { api.layout(); relayout(); });
+  // Zurück auf 100 %: einmal vollständig neu vermessen, Engine zuerst.
+  if (vv) {
+    var wasZoomed = zoomed();
+    vv.addEventListener('resize', function () {
+      var z = zoomed();
+      if (wasZoomed && !z) {
+        VH = innerHeight; lastW = innerWidth; lastH = innerHeight;
+        api.layout(); relayout();
+      }
+      wasZoomed = z;
+    });
+  }
 
   // "App laden" und Sprünge zu #laden: bis ganz ans Ende. Der Schluss ist gepinnt; an seiner
   // Oberkante ist der Text noch ausgeblendet, erst am Seitenende steht er vollständig.
   function toEnd(behavior) {
-    scrollTo({ top: document.documentElement.scrollHeight - innerHeight, behavior: behavior });
+    scrollTo({ top: document.documentElement.scrollHeight - VH, behavior: behavior });
   }
   document.addEventListener('click', function (e) {
     var a = e.target.closest && e.target.closest('a[href="#laden"]');
@@ -406,7 +532,7 @@
   var closeAct = actById.laden;
   if (closeAct) addEventListener('focusin', function (e) {
     if (!e.target.closest || !e.target.closest('.close__copy')) return;
-    var travel = Math.max(closeAct.height - innerHeight, 1);
+    var travel = Math.max(closeAct.height - VH, 1);
     scrollTo({ top: closeAct.top + travel * 0.6, behavior: 'instant' });
   });
   relayout();

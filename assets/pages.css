@@ -39,6 +39,9 @@ body {
   text-rendering: optimizeLegibility; overflow-x: clip;
 }
 img, svg { display: block; max-width: 100%; }
+/* Lange Wörter ("Verbraucherstreitbeilegung") brechen auf schmalen Bildschirmen um,
+   statt die Seite zu verbreitern (sonst ließe sie sich herauszoomen). */
+h1, h2, h3 { overflow-wrap: break-word; hyphens: auto; }
 ::selection { background: var(--accent); color: #fff; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
 .page-head :focus-visible, html:not([data-phase="day"]) .bar :focus-visible { outline-color: #A6B0FF; }
@@ -67,7 +70,7 @@ html[data-phase="day"] .bar {
 }
 .bar__brand img { width: 30px; height: 30px; border-radius: 8px; }
 .bar__cta {
-  display: inline-flex; align-items: center; min-height: 44px; padding: 0 1.15rem; border-radius: 999px;
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 1.15rem; border-radius: 999px; white-space: nowrap;
   font-weight: 600; font-size: .95rem; text-decoration: none; background: var(--ink-night); color: var(--night);
   transition: background-color 180ms var(--ease), color 180ms var(--ease), transform 120ms var(--ease);
 }
@@ -222,9 +225,9 @@ address.card strong { font-family: var(--display); font-weight: 700; font-size: 
 
 /* 404 */
 .lost { max-width: 46rem; margin: 0 auto; }
-.lost ul { list-style: none; margin: 1.4rem 0 0; padding: 0; display: grid; gap: .7rem; }
+.lost ul { list-style: none; margin: 1.4rem 0 0; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: .7rem; }
 .lost a.row {
-  display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 1.1rem 1.3rem; border-radius: 14px;
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: .2rem 1rem; padding: 1.1rem 1.3rem; border-radius: 14px;
   background: var(--day-2); box-shadow: 0 0 0 1px var(--hair); color: var(--ink-day); text-decoration: none;
   transition: box-shadow 160ms var(--ease), transform 160ms var(--ease);
 }
@@ -279,4 +282,9 @@ address.card strong { font-family: var(--display); font-weight: 700; font-size: 
   .brief ul { grid-template-columns: minmax(0, 1fr); }
   .split { grid-template-columns: minmax(0, 1fr); }
   .lead-card .btn { width: 100%; justify-content: center; }
+}
+/* Sehr schmal (kleines Handy mit vergrößerter Anzeige): Leiste bleibt einzeilig. */
+@media (max-width: 330px) {
+  .bar__brand { gap: .45rem; font-size: .95rem; }
+  .bar__cta { padding: 0 .75rem; font-size: .85rem; }
 }
