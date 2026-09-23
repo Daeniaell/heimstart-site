@@ -2,7 +2,7 @@
 <html lang="de" data-phase="night">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, viewport-fit=cover">
 <title>Heimstart: Haus kaufen, renovieren, einziehen. Alles in einer App.</title>
 <meta name="description" content="Reicht unser Geld? Heimstart rechnet Kaufnebenkosten, Rate und Belastung ehrlich durch, liest Bankangebote aus und hält Zeitplan, Einkauf und Team zusammen. Für Android und iPhone.">
 <meta name="theme-color" content="#0A0F1F">
@@ -56,22 +56,25 @@
       </div>
       <div class="hero__air" aria-hidden="true"></div>
 
-      <article class="listing" aria-label="Inserat: Einfamilienhaus mit Garten, 389.000 Euro">
-        <div class="listing__photo" aria-hidden="true"></div>
-        <div class="listing__meta">
-          <p class="listing__type">Einfamilienhaus mit Garten</p>
-          <p class="listing__facts">132 m² · 5 Zimmer · Baujahr 1971</p>
-          <p class="listing__price">389.000 €</p>
-        </div>
-        <span class="listing__heart" role="img" aria-label="Gemerkt">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.3s-7.6-4.6-9.3-9.2C1.5 7.8 3.6 4.5 7 4.5c2 0 3.6 1.1 5 2.9 1.4-1.8 3-2.9 5-2.9 3.4 0 5.5 3.3 4.3 6.6-1.7 4.6-9.3 9.2-9.3 9.2Z"/></svg>
-        </span>
-      </article>
-
       <div class="hero__scrim" aria-hidden="true"></div>
-      <div class="hero__copy" data-sc-cue="0 0.30 0 0.35">
-        <h1 id="hero-title" class="hero__title">Das ist es.</h1>
-        <p class="hero__sub">Spät am Abend, das dritte Inserat heute. Und auf einmal dieses Gefühl: Hier könnten wir wohnen.</p>
+
+      <!-- Überschrift und Inserat teilen sich einen flexiblen Rahmen: nichts kann sich überlagern. -->
+      <div class="hero__intro">
+        <div class="hero__copy" data-sc-cue="0 0.30 0 0.35">
+          <h1 id="hero-title" class="hero__title">Das ist es.</h1>
+          <p class="hero__sub">Spät am Abend, das dritte Inserat heute. Und auf einmal dieses Gefühl: Hier könnten wir wohnen.</p>
+        </div>
+        <article class="listing" aria-label="Inserat: Einfamilienhaus mit Garten, 389.000 Euro">
+          <div class="listing__photo" aria-hidden="true"></div>
+          <div class="listing__meta">
+            <p class="listing__type">Einfamilienhaus mit Garten</p>
+            <p class="listing__facts">132 m² · 5 Zimmer · Baujahr 1971</p>
+            <p class="listing__price">389.000 €</p>
+            <span class="listing__heart" role="img" aria-label="Gemerkt">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.3s-7.6-4.6-9.3-9.2C1.5 7.8 3.6 4.5 7 4.5c2 0 3.6 1.1 5 2.9 1.4-1.8 3-2.9 5-2.9 3.4 0 5.5 3.3 4.3 6.6-1.7 4.6-9.3 9.2-9.3 9.2Z"/></svg>
+            </span>
+          </div>
+        </article>
       </div>
 
       <img class="hero__couple" src="assets/media/couple.webp" width="1168" height="1752" alt="" aria-hidden="true">
@@ -89,6 +92,8 @@
       <div class="storm__hush" aria-hidden="true"></div>
       <div class="storm__day" aria-hidden="true"></div>
 
+      <!-- Titel und Raster teilen sich einen flexiblen Rahmen; die Schrift passt sich der Höhe an. -->
+      <div class="storm__layout">
       <div class="storm__head">
         <h2 id="fragen-title" class="storm__title" data-sc-cue="0.74 1 0.25 0.06">Jede Frage bekommt ihren Platz.</h2>
         <p class="storm__lede" data-sc-cue="0.77 1 0.25 0.06">Heimstart ordnet Geld, Zeitplan, Team und Einkauf in einer App. Damit ihr entscheidet, statt nachts zu grübeln.</p>
@@ -135,6 +140,7 @@
             <li class="q"><svg class="q__check" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10"/><path d="m5.6 10.3 2.9 2.9 5.9-6"/></svg><span>Wie weisen wir den Renovierungskredit nach?</span></li>
           </ul>
         </section>
+      </div>
       </div>
     </div>
   </section>
@@ -336,6 +342,8 @@
              alt="Dasselbe Haus an einem Frühlingsmorgen, frisch renoviert. Das Paar trägt die ersten Umzugskisten durch das offene Gartentor.">
       </picture>
       <div class="close__scrim" aria-hidden="true"></div>
+      <!-- Text und Fußzeile teilen sich einen flexiblen Rahmen: sie können sich nicht überlagern. -->
+      <div class="close__layout">
       <div class="close__copy" data-sc-cue="0.05">
         <h2 id="laden-title">Vom Inserat bis zum Einzug.</h2>
         <p>Heimstart begleitet euch durch Finanzierung, Zeitplan, Einkauf und Team. Für Android und iPhone.</p>
@@ -360,6 +368,7 @@
           <a href="impressum/">Impressum</a>
         </nav>
       </footer>
+      </div>
     </div>
   </section>
 
