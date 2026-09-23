@@ -1,34 +1,381 @@
-<!DOCTYPE html>
-<html lang="de">
+<!doctype html>
+<html lang="de" data-phase="night">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Heimstart: Haus, Umzug, Geld | Heimstart</title>
-<meta name="description" content="Heimstart hilft dir, Umzug, Renovierung und Immobilienprojekte gemeinsam zu planen. Support, Datenschutz, Kontolöschung und Impressum.">
-<link rel="icon" href="./assets/icon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="./assets/site.css">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Heimstart: Haus kaufen, renovieren, einziehen. Alles in einer App.</title>
+<meta name="description" content="Reicht unser Geld? Heimstart rechnet Kaufnebenkosten, Rate und Belastung ehrlich durch, liest Bankangebote aus und hält Zeitplan, Einkauf und Team zusammen. Für Android und iPhone.">
+<meta name="theme-color" content="#0A0F1F">
+<link rel="canonical" href="https://heimstart.de/">
+<link rel="icon" href="assets/brand/heimstart-signet.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/brand/heimstart-signet-180.png">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="de_DE">
+<meta property="og:url" content="https://heimstart.de/">
+<meta property="og:title" content="Heimstart: vom Inserat bis zum Einzug">
+<meta property="og:description" content="Finanzierung, Bankangebote, Zeitplan, Einkauf und Team in einer App. Mit ehrlichem Rechner: Reicht unser Geld?">
+<meta property="og:image" content="https://heimstart.de/assets/media/og-heimstart.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="assets/fonts/archivo-latin-wdth-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/geist-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<script>document.documentElement.classList.add('js')</script>
+<link rel="stylesheet" href="scrollcraft.css">
+<link rel="stylesheet" href="assets/heimstart.css">
+<noscript><style>
+  [data-sc-cue], [data-sc-in], [data-sc-stagger] > * { opacity: 1 !important; transform: none !important; }
+  .hero__couple, .hero__hedge { opacity: 1 !important; }
+  .storm__group h3, .q__check { opacity: 1 !important; transform: none !important; }
+  .storm__day { clip-path: none !important; }
+  .q { color: var(--ink-day) !important; }
+</style></noscript>
 </head>
 <body>
-<header><div class="wrap">
-<a class="brand" href="./"><img src="./assets/icon.svg" alt="" width="40" height="40">Heimstart</a>
-<nav aria-label="Pflichtseiten"><a href="./datenschutz/">Datenschutz</a><a href="./support/">Support</a><a href="./konto-loeschen/">Konto löschen</a><a href="./impressum/">Impressum</a></nav>
-</div></header>
-<main><div class="wrap">
-<section class="hero">
-<p class="eyebrow">Haus, Umzug, Geld</p>
-<h1>Heimstart</h1>
-<p class="lead">Die App, mit der du Umzug, Renovierung und Immobilienprojekt gemeinsam planst: Aufgaben, Einkäufe, Finanzen und Termine an einem Ort, auf Android und iPhone.</p>
-</section>
-<div class="grid">
-<a class="tile" href="./support/"><strong>Support</strong><span>Hilfe bei Anmeldung, Projektzugriff, Einladungen und Synchronisierung.</span></a>
-<a class="tile" href="./datenschutz/"><strong>Datenschutzerklärung</strong><span>Welche Daten Heimstart verarbeitet und welche Rechte du hast.</span></a>
-<a class="tile" href="./konto-loeschen/"><strong>Konto löschen</strong><span>So löschst du dein Konto in der App oder beantragst die Löschung.</span></a>
-<a class="tile" href="./impressum/"><strong>Impressum</strong><span>Anbieterkennzeichnung nach § 5 DDG.</span></a>
-</div>
-</div></main>
-<footer><div class="wrap">
-<span>© 2026 Heimstart · Daniel Mwenda Muraa</span>
-<span><a href="./datenschutz/">Datenschutz</a><a href="./support/">Support</a><a href="./konto-loeschen/">Kontolöschung</a><a href="./impressum/">Impressum</a></span>
-</div></footer>
+
+<a class="skip" href="#rechner">Zum Rechner springen</a>
+<div class="sc-grain" aria-hidden="true"></div>
+
+<header class="bar">
+  <a class="bar__brand" href="#top" aria-label="Heimstart, zum Seitenanfang">
+    <img src="assets/brand/heimstart-signet.svg" width="30" height="30" alt="">
+    <span>Heimstart</span>
+  </a>
+  <a class="bar__cta" href="#laden" data-store-link>App laden</a>
+</header>
+
+<main>
+
+  <!-- ============================================ 1 · Das Inserat (Nacht) -->
+  <section class="hero is-night" id="top" data-sc-act="scrub" data-sc-span="2.6" data-sc-dwell="0.26" aria-labelledby="hero-title">
+    <div data-sc-stage class="hero__stage">
+      <div class="hero__frame" aria-hidden="true">
+        <picture>
+          <source media="(orientation: portrait)" srcset="assets/media/hero-poster-p.webp">
+          <img class="sc-stage__poster" src="assets/media/hero-poster.webp" width="1920" height="1080" alt="">
+        </picture>
+        <video data-sc-scrub data-sc-src="assets/media/hero.mp4" data-sc-src-mobile="assets/media/hero-p.mp4" muted playsinline></video>
+      </div>
+      <div class="hero__air" aria-hidden="true"></div>
+
+      <article class="listing" aria-label="Inserat: Einfamilienhaus mit Garten, 389.000 Euro">
+        <div class="listing__photo" aria-hidden="true"></div>
+        <div class="listing__meta">
+          <p class="listing__type">Einfamilienhaus mit Garten</p>
+          <p class="listing__facts">132 m² · 5 Zimmer · Baujahr 1971</p>
+          <p class="listing__price">389.000 €</p>
+        </div>
+        <span class="listing__heart" role="img" aria-label="Gemerkt">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.3s-7.6-4.6-9.3-9.2C1.5 7.8 3.6 4.5 7 4.5c2 0 3.6 1.1 5 2.9 1.4-1.8 3-2.9 5-2.9 3.4 0 5.5 3.3 4.3 6.6-1.7 4.6-9.3 9.2-9.3 9.2Z"/></svg>
+        </span>
+      </article>
+
+      <div class="hero__scrim" aria-hidden="true"></div>
+      <div class="hero__copy" data-sc-cue="0 0.30 0 0.35">
+        <h1 id="hero-title" class="hero__title">Das ist es.</h1>
+        <p class="hero__sub">Spät am Abend, das dritte Inserat heute. Und auf einmal dieses Gefühl: Hier könnten wir wohnen.</p>
+      </div>
+
+      <img class="hero__couple" src="assets/media/couple.webp" width="1168" height="1752" alt="" aria-hidden="true">
+      <img class="hero__hedge" src="assets/media/hedge.webp" width="2400" height="1029" alt="" aria-hidden="true">
+
+      <p class="hero__line" data-sc-cue="0.40 0.74 0.3 0.25">Ihr fahrt hin. Ihr steht davor.</p>
+      <p class="hero__line" data-sc-cue="0.74 1 0.3 0.12">Und dann ist sie da, die eine Frage.</p>
+    </div>
+  </section>
+
+  <!-- ============================ 2 · Die Fragen (Signatur und Höhepunkt) -->
+  <section class="storm" id="fragen" data-sc-act="pin" data-sc-span="5.2" aria-labelledby="fragen-title">
+    <div data-sc-stage class="storm__stage" data-sc-verify-state="">
+      <div class="storm__night" aria-hidden="true"></div>
+      <div class="storm__hush" aria-hidden="true"></div>
+      <div class="storm__day" aria-hidden="true"></div>
+
+      <div class="storm__head">
+        <h2 id="fragen-title" class="storm__title" data-sc-cue="0.74 1 0.25 0.06">Jede Frage bekommt ihren Platz.</h2>
+        <p class="storm__lede" data-sc-cue="0.77 1 0.25 0.06">Heimstart ordnet Geld, Zeitplan, Team und Einkauf in einer App. Damit ihr entscheidet, statt nachts zu grübeln.</p>
+      </div>
+
+      <div class="storm__board">
+        <section class="storm__group" aria-labelledby="g-geld">
+          <h3 id="g-geld">Geld</h3>
+          <ul>
+            <li class="q q--anchor"><svg class="q__check" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10"/><path d="m5.6 10.3 2.9 2.9 5.9-6"/></svg><span>Reicht unser Geld?</span></li>
+            <li class="q"><svg class="q__check" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10"/><path d="m5.6 10.3 2.9 2.9 5.9-6"/></svg><span>Reicht das Eigenkapital?</span></li>
+            <li class="q"><svg class="q__check" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10"/><path d="m5.6 10.3 2.9 2.9 5.9-6"/></svg><span>Welche Rate ist tragbar?</span></li>
+            <li class="q"><svg class="q__check" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10"/><path d="m5.6 10.3 2.9 2.9 5.9-6"/></svg><span>Was kosten Steuer, Notar und Makler?</span></li>
+            <li class="q"><svg class="q__check" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10"/><path d="m5.6 10.3 2.9 2.9 5.9-6"/></svg><span>Welches Bankangebot ist besser?</span></li>
+          </ul>
+        </section>
+        <section class="storm__group" aria-labelledby="g-zeit">
+          <h3 id="g-zeit">Zeitplan</h3>
+          <ul>
+            <li class="q"><svg class="q__check" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10"/><path d="m5.6 10.3 2.9 2.9 5.9-6"/></svg><span>Bis wann muss was fertig sein?</span></li>
+            <li class="q"><svg class="q__check" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10"/><path d="m5.6 10.3 2.9 2.9 5.9-6"/></svg><span>Hält der Zeitplan?</span></li>
+            <li class="q"><svg class="q__check" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10"/><path d="m5.6 10.3 2.9 2.9 5.9-6"/></svg><span>Was blockiert gerade?</span></li>
+            <li class="q"><svg class="q__check" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10"/><path d="m5.6 10.3 2.9 2.9 5.9-6"/></svg><span>Schaffen wir den Umzugstermin?</span></li>
+            <li class="q"><svg class="q__check" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10"/><path d="m5.6 10.3 2.9 2.9 5.9-6"/></svg><span>Was kommt als Nächstes?</span></li>
+          </ul>
+        </section>
+        <section class="storm__group" aria-labelledby="g-team">
+          <h3 id="g-team">Team</h3>
+          <ul>
+            <li class="q"><svg class="q__check" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10"/><path d="m5.6 10.3 2.9 2.9 5.9-6"/></svg><span>Wer macht was?</span></li>
+            <li class="q"><svg class="q__check" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10"/><path d="m5.6 10.3 2.9 2.9 5.9-6"/></svg><span>Wie koordinieren wir die Helfer?</span></li>
+            <li class="q"><svg class="q__check" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10"/><path d="m5.6 10.3 2.9 2.9 5.9-6"/></svg><span>Wie erreichen wir alle schnell?</span></li>
+            <li class="q"><svg class="q__check" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10"/><path d="m5.6 10.3 2.9 2.9 5.9-6"/></svg><span>Wer darf was sehen?</span></li>
+            <li class="q"><svg class="q__check" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10"/><path d="m5.6 10.3 2.9 2.9 5.9-6"/></svg><span>Wie behalten alle den Überblick?</span></li>
+          </ul>
+        </section>
+        <section class="storm__group" aria-labelledby="g-einkauf">
+          <h3 id="g-einkauf">Einkauf und Budget</h3>
+          <ul>
+            <li class="q"><svg class="q__check" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10"/><path d="m5.6 10.3 2.9 2.9 5.9-6"/></svg><span>Ist das Material rechtzeitig da?</span></li>
+            <li class="q"><svg class="q__check" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10"/><path d="m5.6 10.3 2.9 2.9 5.9-6"/></svg><span>Was ist schon gekauft?</span></li>
+            <li class="q"><svg class="q__check" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10"/><path d="m5.6 10.3 2.9 2.9 5.9-6"/></svg><span>Bleiben wir im Budget?</span></li>
+            <li class="q"><svg class="q__check" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10"/><path d="m5.6 10.3 2.9 2.9 5.9-6"/></svg><span>Was kostet die Renovierung wirklich?</span></li>
+            <li class="q"><svg class="q__check" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10"/><path d="m5.6 10.3 2.9 2.9 5.9-6"/></svg><span>Wie weisen wir den Renovierungskredit nach?</span></li>
+          </ul>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================== 3 · Die Antworten (Tag, pan) -->
+  <section class="answers is-day" id="antworten" data-sc-act="pan" data-sc-span="4.6" aria-labelledby="antworten-title">
+    <div data-sc-stage class="answers__stage">
+      <div class="answers__rail" data-sc-pan="0.02">
+
+        <div class="answers__lead">
+          <h2 id="antworten-title">Was Heimstart für euch klärt.</h2>
+          <p>Die Fragen, die jedes Hausprojekt stellt, und wie die App sie beantwortet.</p>
+        </div>
+
+        <article class="answer" aria-labelledby="a-geld">
+          <figure class="phone">
+            <div class="phone__screen">
+              <img src="assets/app/finanzierung.webp" width="900" height="1956" loading="lazy" decoding="async"
+                   alt="Heimstart, Finanzierung, Schritt 1 von 4: Kaufpreis 450.000 Euro, Eigenkapital 60.000 Euro, Grunderwerbsteuer 27.000 Euro. Unten Kreditbedarf 524.815 Euro, Monatsrate 2.449,14 Euro, freier Überschuss 3.600,86 Euro.">
+              <svg class="phone__status" viewBox="0 0 1320 186" aria-hidden="true"><use href="#status-bar"/></svg>
+            </div>
+          </figure>
+          <div class="answer__text">
+            <p class="answer__label">Finanzierung</p>
+            <h3 id="a-geld">Reicht unser Geld?</h3>
+            <p>Kaufpreis, Grunderwerbsteuer nach Bundesland, Notar, Makler und Renovierung ergeben euren echten Kapitalbedarf. Abzüglich eures Eigenkapitals rechnet Heimstart daraus Kredit, Rate und Belastung, Schritt für Schritt.</p>
+          </div>
+        </article>
+
+        <article class="answer" aria-labelledby="a-angebot">
+          <figure class="phone">
+            <div class="phone__screen">
+              <img src="assets/app/angebot.webp" width="900" height="1956" loading="lazy" decoding="async"
+                   alt="Heimstart, Angebotsanalyse eines Kreditangebots: Darlehensbetrag 349.000 Euro, Sollzins 3,35 Prozent, Effektivzins 3,51 Prozent, Monatsrate 1.657,75 Euro, Restschuld 247.840 Euro, Zinsbindung 15 Jahre.">
+              <svg class="phone__status" viewBox="0 0 1320 186" aria-hidden="true"><use href="#status-bar"/></svg>
+            </div>
+          </figure>
+          <div class="answer__text">
+            <p class="answer__label">Bankangebote</p>
+            <h3 id="a-angebot">Welches Angebot ist besser?</h3>
+            <p>Angebots-PDF hochladen, Heimstart liest die Eckdaten aus: Sollzins, Effektivzins, Rate, Restschuld und Zinsbindung. Ihr prüft jeden Wert, bevor ihr ihn übernehmt.</p>
+          </div>
+        </article>
+
+        <article class="answer" aria-labelledby="a-zeit">
+          <figure class="phone">
+            <div class="phone__screen">
+              <img src="assets/app/aufgaben.webp" width="900" height="1956" loading="lazy" decoding="async"
+                   alt="Heimstart, Aufgaben als Gantt-Diagramm: Elektroinstallation, Trockenbau OG, Bad abdichten, Küche final ausmessen, Material bestellen und Wände vorbereiten auf einer Zeitleiste mit Markierung für heute.">
+              <svg class="phone__status" viewBox="0 0 1320 186" aria-hidden="true"><use href="#status-bar"/></svg>
+            </div>
+          </figure>
+          <div class="answer__text">
+            <p class="answer__label">Aufgaben</p>
+            <h3 id="a-zeit">Hält der Zeitplan?</h3>
+            <p>Aufgaben mit Fristen, als Liste, Board, Kalender oder Gantt. Ihr seht, was blockiert, bevor ein Termin platzt.</p>
+          </div>
+        </article>
+
+        <article class="answer" aria-labelledby="a-einkauf">
+          <figure class="phone">
+            <div class="phone__screen">
+              <img src="assets/app/einkauf.webp" width="900" height="1956" loading="lazy" decoding="async"
+                   alt="Heimstart, Einkauf: 7 von 12 Artikeln gekauft, 965,74 Euro ausgegeben, 58 Prozent erledigt. Darunter abgehakte Posten wie Abdeckvlies und Wandfarbe.">
+              <svg class="phone__status" viewBox="0 0 1320 186" aria-hidden="true"><use href="#status-bar"/></svg>
+            </div>
+          </figure>
+          <div class="answer__text">
+            <p class="answer__label">Einkauf</p>
+            <h3 id="a-einkauf">Ist das Material rechtzeitig da?</h3>
+            <p>Einkaufslisten mit Fortschritt und Ausgaben. Was gekauft ist, wird abgehakt. Was fehlt, bleibt sichtbar.</p>
+          </div>
+        </article>
+
+        <article class="answer" aria-labelledby="a-team">
+          <figure class="answer__photo">
+            <img src="assets/media/team.webp" width="900" height="1125" loading="lazy" decoding="async"
+                 alt="Ein Paar plant die Renovierung: Er misst die Wand aus, sie notiert die Maße zwischen Bodenmustern und Umzugskartons.">
+          </figure>
+          <div class="answer__text">
+            <p class="answer__label">Team</p>
+            <h3 id="a-team">Wer macht was? Und wer sieht was?</h3>
+            <p>Ladet Helfer, Handwerker und Familie ein. Rollen und einzeln schaltbare Rechte bestimmen, wer was sieht: Der Fliesenleger sieht die Einkaufsliste, nicht eure Finanzierung. Dazu ein Chat für kurze Absprachen.</p>
+          </div>
+        </article>
+
+        <div class="answers__note">
+          <p>Keine Werbung.</p>
+          <p>Kein Tracking.</p>
+          <p>Läuft auch offline.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================= 4 · Der Rechner (Tag, flow) -->
+  <section class="calc is-day sc-section" id="rechner" data-sc-act="flow" aria-labelledby="rechner-title">
+    <div class="sc-wrap calc__wrap">
+      <div class="calc__intro sc-stack" data-sc-in>
+        <h2 id="rechner-title">Reicht es bei euch?</h2>
+        <p>Fünf Zahlen genügen für eine erste ehrliche Einschätzung. Gerechnet wird mit derselben Logik wie in der App, nur in eurem Browser. Nichts wird gespeichert oder gesendet.</p>
+      </div>
+
+      <div class="calc__fields" role="group" aria-labelledby="rechner-title">
+        <noscript><p class="field__hint">Der Rechner braucht JavaScript. In der App rechnet ihr ohne diese Einschränkung.</p></noscript>
+
+        <div class="field" data-field="price" data-min="50000" data-max="1500000" data-step="5000" data-value="389000">
+          <div class="field__top"><label for="f-price">Kaufpreis</label><input id="f-price" class="field__value" type="text" inputmode="numeric" autocomplete="off" value="389.000 €"></div>
+          <input class="range" type="range" aria-label="Kaufpreis einstellen" min="50000" max="1500000" step="5000" value="389000">
+        </div>
+
+        <div class="field">
+          <label for="f-state">Bundesland</label>
+          <select id="f-state" class="select"></select>
+          <p class="field__hint" id="f-state-hint">Grunderwerbsteuer 6,5 %</p>
+        </div>
+
+        <div class="field">
+          <label class="switch" for="a-broker-on">
+            <span class="switch__text">
+              <span class="switch__label">Mit Makler</span>
+              <span class="field__hint" id="f-broker-hint">Provision 3,57 % vom Kaufpreis</span>
+            </span>
+            <input type="checkbox" id="a-broker-on" role="switch" checked>
+            <span class="switch__track" aria-hidden="true"></span>
+          </label>
+        </div>
+
+        <div class="field" data-field="equity" data-min="0" data-max="800000" data-step="5000" data-value="90000">
+          <div class="field__top"><label for="f-equity">Eigenkapital</label><input id="f-equity" class="field__value" type="text" inputmode="numeric" autocomplete="off" value="90.000 €"></div>
+          <input class="range" type="range" aria-label="Eigenkapital einstellen" min="0" max="800000" step="5000" value="90000">
+        </div>
+
+        <div class="field" data-field="renovation" data-min="0" data-max="400000" data-step="5000" data-value="45000">
+          <div class="field__top"><label for="f-renovation">Renovierung und Modernisierung</label><input id="f-renovation" class="field__value" type="text" inputmode="numeric" autocomplete="off" value="45.000 €"></div>
+          <input class="range" type="range" aria-label="Renovierungsbudget einstellen" min="0" max="400000" step="5000" value="45000">
+        </div>
+
+        <div class="field" data-field="income" data-min="1000" data-max="20000" data-step="100" data-value="6200">
+          <div class="field__top"><label for="f-income">Netto-Einkommen im Monat</label><input id="f-income" class="field__value" type="text" inputmode="numeric" autocomplete="off" value="6.200 €"></div>
+          <input class="range" type="range" aria-label="Netto-Einkommen einstellen" min="1000" max="20000" step="100" value="6200">
+          <p class="field__hint">Alle Nettoeinkommen des Haushalts zusammen.</p>
+        </div>
+
+        <details class="assume">
+          <summary>Annahmen anpassen</summary>
+          <div class="assume__grid">
+            <label class="mini"><span>Sollzins in %</span><input type="text" inputmode="decimal" id="a-rate" value="3,6"></label>
+            <label class="mini"><span>Anfängliche Tilgung in %</span><input type="text" inputmode="decimal" id="a-repay" value="2,0"></label>
+            <label class="mini"><span>Notar und Grundbuch in %</span><input type="text" inputmode="decimal" id="a-notary" value="1,5"></label>
+            <label class="mini"><span>Maklerprovision in %</span><input type="text" inputmode="decimal" id="a-broker" value="3,57"></label>
+            <label class="mini mini--wide"><span>Laufende Hauskosten im Monat in €</span><input type="text" inputmode="numeric" id="a-costs" value="350"></label>
+          </div>
+        </details>
+      </div>
+
+      <div class="calc__result">
+        <p class="res__kicker">Monatsrate aus Zins und Tilgung</p>
+        <p class="res__rate"><span id="r-rate">1.815,37 €</span><small>im Monat</small></p>
+
+        <div class="meter" aria-hidden="true">
+          <div class="meter__track"><span class="meter__pin" id="r-pin" style="left: 58%"></span></div>
+          <div class="meter__scale"><span>0 %</span><span>35 %</span><span>40 %</span><span>60 %</span></div>
+        </div>
+        <div class="verdict" id="r-verdict" data-level="ok" role="status" aria-live="polite">
+          <svg viewBox="0 0 24 24" aria-hidden="true"></svg>
+          <div><strong id="r-verdict-title">Rechnerisch innerhalb der gewählten Grenze</strong><span id="r-verdict-text"></span></div>
+        </div>
+
+        <table class="ledger">
+          <caption class="visually-hidden">Rechenweg</caption>
+          <tbody>
+            <tr><th scope="row">Kaufpreis</th><td id="l-price"></td></tr>
+            <tr><th scope="row" id="l-tax-label">Grunderwerbsteuer</th><td id="l-tax"></td></tr>
+            <tr><th scope="row" id="l-notary-label">Notar und Grundbuch</th><td id="l-notary"></td></tr>
+            <tr><th scope="row" id="l-broker-label">Makler</th><td id="l-broker"></td></tr>
+            <tr><th scope="row">Renovierung</th><td id="l-renovation"></td></tr>
+            <tr class="sum"><th scope="row">Gesamtbedarf</th><td id="l-total"></td></tr>
+            <tr><th scope="row">Eigenkapital</th><td id="l-equity"></td></tr>
+            <tr class="sum"><th scope="row">Kreditbedarf</th><td id="l-loan"></td></tr>
+            <tr class="gap"><th scope="row">Monatsrate</th><td id="l-rate"></td></tr>
+            <tr><th scope="row">Laufende Hauskosten</th><td id="l-costs"></td></tr>
+            <tr class="sum"><th scope="row">Wohnkosten im Monat</th><td id="l-housing"></td></tr>
+          </tbody>
+        </table>
+        <p class="res__equity" id="r-equity"></p>
+        <p class="res__note">Modellrechnung mit der anfänglichen Monatsrate. Grunderwerbsteuer nach Landessatz (Stand 05.09.2026), abgerundet auf volle Euro. Keine Finanzierungs-, Steuer- oder Rechtsberatung und kein Angebot einer Bank. In der App rechnet ihr zusätzlich mit Lebenshaltung, Kindergeld, Rücklage, Restschuld nach der Zinsbindung und echten Bankangeboten.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================= 5 · Einzug (Morgen, pin) -->
+  <section class="close is-day" id="laden" data-sc-act="pin" data-sc-span="1.5" aria-labelledby="laden-title">
+    <div data-sc-stage class="close__stage">
+      <picture class="close__bg" data-sc-parallax="-1.2">
+        <source media="(orientation: portrait)" srcset="assets/media/morning-p.webp">
+        <img src="assets/media/morning.webp" width="1920" height="1080" loading="lazy" decoding="async"
+             alt="Dasselbe Haus an einem Frühlingsmorgen, frisch renoviert. Das Paar trägt die ersten Umzugskisten durch das offene Gartentor.">
+      </picture>
+      <div class="close__scrim" aria-hidden="true"></div>
+      <div class="close__copy" data-sc-cue="0.05">
+        <h2 id="laden-title">Vom Inserat bis zum Einzug.</h2>
+        <p>Heimstart begleitet euch durch Finanzierung, Zeitplan, Einkauf und Team. Für Android und iPhone.</p>
+        <p class="close__result" id="close-result" hidden></p>
+        <!-- Ziel der Badges steuert assets/stores.js (Platzhalter bis zur Veröffentlichung). -->
+        <div class="stores" id="stores">
+          <a class="store store--apple" href="#laden" data-store="apple" rel="noopener">
+            <img src="assets/badges/app-store-de.svg" width="132" height="44" alt="Laden im App Store">
+          </a>
+          <a class="store store--google" href="#laden" data-store="google" rel="noopener">
+            <img src="assets/badges/google-play-de.png" width="148" height="57" alt="Jetzt bei Google Play">
+          </a>
+        </div>
+        <p class="stores__hint" id="stores-hint" role="status" aria-live="polite" hidden></p>
+      </div>
+      <footer class="foot">
+        <span>© 2026 Heimstart</span>
+        <nav aria-label="Rechtliches und Hilfe">
+          <a href="datenschutz/">Datenschutz</a>
+          <a href="support/">Support</a>
+          <a href="konto-loeschen/">Konto löschen</a>
+          <a href="impressum/">Impressum</a>
+        </nav>
+      </footer>
+    </div>
+  </section>
+
+</main>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <g id="status-bar">
+      <text x="236" y="112" font-family="-apple-system, 'SF Pro Text', 'Geist Variable', system-ui, sans-serif" font-size="52" font-weight="600" text-anchor="middle" fill="#000">9:41</text>
+      <g fill="#000"><rect x="990" y="96" width="9" height="15" rx="2"/><rect x="1004" y="90" width="9" height="21" rx="2"/><rect x="1018" y="84" width="9" height="27" rx="2"/><rect x="1032" y="78" width="9" height="33" rx="2"/><path d="M1072 87a34 34 0 0 1 46 0l-5 5a27 27 0 0 0-36 0Zm9 9a21 21 0 0 1 28 0l-5 5a14 14 0 0 0-18 0Zm9 9 5-5 5 5-5 5Z"/><rect x="1136" y="80" width="54" height="29" rx="8" fill="none" stroke="#000" stroke-width="3" opacity=".45"/><rect x="1141" y="85" width="44" height="19" rx="5"/><rect x="1193" y="89" width="4" height="11" rx="2" opacity=".45"/></g>
+    </g>
+  </defs>
+</svg>
+
+<script src="assets/stores.js"></script>
+<script src="scrollcraft.js"></script>
+<script src="assets/heimstart.js"></script>
 </body>
 </html>
