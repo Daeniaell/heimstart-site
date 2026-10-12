@@ -482,7 +482,12 @@
     // Freier Platz zwischen Text und Fußzeile zählt nicht: nur beide Höhen zusammen.
     fitStack(C.box, function () { return C.copy.offsetHeight + C.foot.offsetHeight; }, 0.5, -1);
   }
-  if (C.box && window.ResizeObserver) new ResizeObserver(function () { requestAnimationFrame(closeFit); }).observe(C.copy);
+  // Auch die Fußzeile beobachten: analytics.js hängt den Knopf „Datenschutzeinstellungen“ nachträglich an.
+  if (C.box && window.ResizeObserver) {
+    var closeRO = new ResizeObserver(function () { requestAnimationFrame(closeFit); });
+    closeRO.observe(C.copy);
+    closeRO.observe(C.foot);
+  }
 
   function relayout() {
     heroLayout();
