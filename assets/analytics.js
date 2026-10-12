@@ -126,6 +126,6 @@
     }
     if (!store || !stores[store]) return;
     var live = stores[store].live && anchor.href === stores[store].url;
-    send('store_click', { store_name: store, store_status: live ? 'live' : 'coming_soon' });
+    send(live ? 'store_click' : 'store_interest', { store_name: store, store_status: live ? 'live' : 'coming_soon' });
   });
 })();

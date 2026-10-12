@@ -28,7 +28,8 @@ Ablehnung/Widerruf ueber die Datenschutzeinstellungen; Werbepersonalisierung und
 Der Rechner rechnet nur im Browser; Eingaben und Ergebnisse werden nicht an Analytics gesendet.
 
 - `calculator_use`: erste echte Eingabe in den Rechner je Seitenaufruf nach Zustimmung.
-- `store_click`: Klick auf ein Store-Badge oder eine direkt freigeschaltete mobile Store-CTA.
+- `store_click`: Klick auf ein freigeschaltetes Store-Badge oder eine direkt freigeschaltete mobile Store-CTA.
+- `store_interest`: Klick auf ein noch nicht freigeschaltetes Badge (bald erhaeltlich), getrennt von echten Store-Klicks.
   Parameter `store_name` (apple/google), `store_status` (coming_soon/live).
   Sprung zu den Badges zaehlt nicht als Store-Klick. Ein Klick ist kein Download.
 - Query-Parameter und Fragmente werden aus Seiten- und Herkunftsadressen entfernt.
