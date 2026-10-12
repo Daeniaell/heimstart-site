@@ -22,8 +22,18 @@ Solange eine App nicht öffentlich ist, sind Badges und "App laden" Platzhalter 
 
 ## Datenschutz der Website
 
-Keine Cookies, keine Nutzungsanalyse, keine Schriftarten oder Skripte von Dritten. Die Skripte
-der Seite sind eigene Dateien; der Rechner rechnet nur im Browser und sendet nichts.
+Optionale GA4-Standardmessung mit `G-01YZWB98V1` im Konto support@heimstart.de.
+`assets/analytics.js` laedt das Google-Tag erst nach ausdruecklicher Zustimmung (Basic Consent Mode).
+Ablehnung/Widerruf ueber die Datenschutzeinstellungen; Werbepersonalisierung und Google Signals aus.
+Der Rechner rechnet nur im Browser; Eingaben und Ergebnisse werden nicht an Analytics gesendet.
+
+- `calculator_use`: erste echte Eingabe in den Rechner je Seitenaufruf nach Zustimmung.
+- `store_click`: Klick auf ein Store-Badge oder eine direkt freigeschaltete mobile Store-CTA.
+  Parameter `store_name` (apple/google), `store_status` (coming_soon/live).
+  Sprung zu den Badges zaehlt nicht als Store-Klick. Ein Klick ist kein Download.
+- Query-Parameter und Fragmente werden aus Seiten- und Herkunftsadressen entfernt.
+- Automatische optimierte Analysen deaktiviert; Ereignisaufbewahrung zwei Monate.
+- Technischer Nachweis in GA4 DebugView mit `?ga_debug=1`; Tests nicht als echte Nutzer auswerten.
 
 ## Domain und Mail
 
