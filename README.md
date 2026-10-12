@@ -40,7 +40,8 @@ Der Rechner rechnet nur im Browser; Eingaben und Ergebnisse werden nicht an Anal
 
 `robots.txt`, `sitemap.xml` und `llms.txt` im Wurzelverzeichnis, strukturierte Daten (JSON-LD) im Kopf von
 `index.html` und das WebMCP-Werkzeug `finanzierung_pruefen` in `assets/heimstart.js` (nur in Browsern mit
-WebMCP aktiv). Pflegehinweise und Testphasen-Token: README im Build-Ordner (siehe Aufbau).
+WebMCP aktiv). Testphasen-Token im Kopf von `index.html`, gültig bis 30.03.2027 (Erneuern unter
+developer.chrome.com/origintrials). Pflegehinweise: README im Build-Ordner (siehe Aufbau).
 
 ## Domain und Mail
 
