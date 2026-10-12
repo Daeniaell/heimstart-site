@@ -1,0 +1,35 @@
+# Heimstart
+
+> Heimstart ist eine App für Android und iPhone für alle, die ein Haus kaufen, renovieren und einziehen. Sie ordnet Finanzierung, Bankangebote, Zeitplan, Einkauf und Team in einer App, vom Inserat bis zum Einzug. Die Website heimstart.de stellt die App vor und bietet einen Rechner für eine erste Einschätzung: Reicht unser Geld?
+
+Sprache: Deutsch. Die App zeigt keine Werbung, hat kein Tracking und läuft auch offline.
+
+## Funktionen der App
+
+- Finanzierung: Kaufpreis, Grunderwerbsteuer nach Bundesland, Notar, Makler und Renovierung ergeben den echten Kapitalbedarf. Abzüglich des Eigenkapitals rechnet Heimstart daraus Kredit, Rate und Belastung, Schritt für Schritt.
+- Bankangebote: Angebots-PDF hochladen, Heimstart liest die Eckdaten aus (Sollzins, Effektivzins, Rate, Restschuld, Zinsbindung). Nutzer prüfen jeden Wert, bevor sie ihn übernehmen.
+- Aufgaben: Aufgaben mit Fristen als Liste, Board, Kalender oder Gantt. Sichtbar, was blockiert, bevor ein Termin platzt.
+- Einkauf: Einkaufslisten mit Fortschritt und Ausgaben. Was gekauft ist, wird abgehakt.
+- Team: Helfer, Handwerker und Familie einladen. Rollen und einzeln schaltbare Rechte bestimmen, wer was sieht. Dazu ein Chat für kurze Absprachen.
+
+## Rechner auf der Startseite
+
+Fünf Zahlen genügen: Kaufpreis, Bundesland, Eigenkapital, Renovierung und Netto-Einkommen des Haushalts. Gerechnet wird im Browser mit derselben Logik wie in der App; nichts wird gespeichert oder gesendet.
+
+- Annahmen (auf der Seite anpassbar): Grunderwerbsteuer nach Landessatz (Stand 05.09.2026, abgerundet auf volle Euro), Notar und Grundbuch 1,5 %, Makler 3,57 % (abschaltbar), Sollzins 3,6 %, anfängliche Tilgung 2,0 %, laufende Hauskosten 350 € im Monat.
+- Monatsrate = Kreditbedarf × (Sollzins + Tilgung) ÷ 12. Wohnkosten = Monatsrate + laufende Hauskosten. Belastung = Wohnkosten ÷ Netto-Einkommen.
+- Einordnung: bis 35 % solider Rahmen, bis 40 % erhöhte Belastung, darüber kritisch.
+- Modellrechnung mit der anfänglichen Monatsrate. Keine Finanzierungs-, Steuer- oder Rechtsberatung und kein Angebot einer Bank.
+- Browser mit WebMCP bieten den Rechner als Werkzeug `finanzierung_pruefen` an.
+
+## Seiten
+
+- [Startseite](https://heimstart.de/): Vorstellung der App und Rechner
+- [Support](https://heimstart.de/support/): Hilfe und Kontakt
+- [Konto löschen](https://heimstart.de/konto-loeschen/): Konto oder einzelne Daten löschen lassen
+- [Datenschutz](https://heimstart.de/datenschutz/): Datenschutzerklärung
+- [Impressum](https://heimstart.de/impressum/): Anbieterkennzeichnung
+
+## Kontakt
+
+support@heimstart.de

@@ -36,6 +36,12 @@ Der Rechner rechnet nur im Browser; Eingaben und Ergebnisse werden nicht an Anal
 - Automatische optimierte Analysen deaktiviert; Ereignisaufbewahrung zwei Monate.
 - Technischer Nachweis in GA4 DebugView mit `?ga_debug=1`; Tests nicht als echte Nutzer auswerten.
 
+## KI-Agenten
+
+`robots.txt`, `sitemap.xml` und `llms.txt` im Wurzelverzeichnis, strukturierte Daten (JSON-LD) im Kopf von
+`index.html` und das WebMCP-Werkzeug `finanzierung_pruefen` in `assets/heimstart.js` (nur in Browsern mit
+WebMCP aktiv). Pflegehinweise und Testphasen-Token: README im Build-Ordner (siehe Aufbau).
+
 ## Domain und Mail
 
 Stand 17.09.2026: heimstart.de zeigt per DNS auf GitHub Pages (A-Eintrag, www als CNAME).

@@ -1,0 +1,5 @@
+# heimstart.de: alle Seiten dürfen gelesen werden, auch von Suchmaschinen und KI-Diensten.
+User-agent: *
+Allow: /
+
+Sitemap: https://heimstart.de/sitemap.xml

@@ -544,6 +544,12 @@ html[data-phase="day"] :focus-visible { outline-color: var(--accent-day); }
 }
 .foot nav { display: flex; flex-wrap: wrap; gap: calc(.2rem * var(--fit, 1)) 1.1rem; }
 .foot a { color: var(--ink-day); text-decoration: none; min-height: max(24px, calc(32px * var(--fit, 1))); display: inline-flex; align-items: center; }
+/* Sehr kleine Bildschirme (etwa iPhone SE mit 150 % Zoom): Der Knopf „Datenschutzeinstellungen“ bringt eine
+   weitere Fußzeilenzeile mit. Text und Fußzeile rücken zusammen, statt die Schrift unter --fit 0,5 zu verkleinern. */
+@media (max-width: 300px) and (max-height: 420px) {
+  .close__layout { padding-top: var(--bar-h); }
+  .foot { row-gap: .2rem; }
+}
 @media (hover: hover) and (pointer: fine) {
   .foot a:hover { text-decoration: underline; }
   .store:hover { transform: translateY(-1px); }
