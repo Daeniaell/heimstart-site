@@ -706,6 +706,89 @@
       carry.textContent = 'Euer Stand aus dem Rechner: ' + money2(rate) + ' Monatsrate, ' + share + ' Belastung. In Heimstart rechnet ihr mit allen Details weiter.';
       carry.hidden = false;
     }
+    return { price: price, state: state, taxRate: taxRate, tax: tax, nt: nt, notary: notary, brokerOn: brokerOn, bk: bk,
+      broker: broker, ancillary: ancillary, renovation: renovation, total: total, equity: equity, loan: loan, ir: ir, rp: rp,
+      rate: rate, costs: costs, housing: housing, income: income, ratio: ratio, share: share, level: level };
   }
   compute();
+
+  /* ======================================================================
+     5 · WEBMCP
+     Browser mit WebMCP (Chrome, Testphase) bieten KI-Agenten den Rechner als
+     Werkzeug an. Es rechnet mit compute(), trägt die Werte sichtbar in den
+     Rechner ein und sendet oder speichert nichts. Ohne WebMCP passiert nichts.
+     ====================================================================== */
+  var mc = document.modelContext || navigator.modelContext;
+  if (calc && mc && typeof mc.registerTool === 'function') {
+    var given = function (v) { return typeof v === 'number' && isFinite(v) && v >= 0; };
+    var setField = function (key, v, label, notes) {
+      var F = fields[key], c = Math.min(F.max, Math.max(F.min, Math.round(v)));
+      if (c !== Math.round(v)) notes.push(label + ' auf ' + money0(c) + ' begrenzt (Bereich des Rechners)');
+      F.value = c; F.sync();
+    };
+    var money = function (label) { return { type: 'number', minimum: 0, description: label }; };
+    try {
+      mc.registerTool({
+        name: 'finanzierung_pruefen',
+        description: 'Erste Einschätzung zum Hauskauf in Deutschland: Kaufnebenkosten, Kreditbedarf, anfängliche Monatsrate ' +
+          'und Belastung im Verhältnis zum Netto-Einkommen. Rechnet im Browser mit derselben Logik wie die Heimstart-App ' +
+          'und trägt die Werte sichtbar in den Rechner der Seite ein. Modellrechnung, keine Finanzierungs-, Steuer- oder Rechtsberatung.',
+        inputSchema: {
+          type: 'object',
+          properties: {
+            kaufpreis: money('Kaufpreis der Immobilie in Euro (Rechnerbereich 50.000 bis 1.500.000)'),
+            bundesland: { type: 'string', enum: Object.keys(TAX), description: 'Bundesland, bestimmt die Grunderwerbsteuer' },
+            eigenkapital: money('Eigenkapital in Euro (bis 800.000)'),
+            renovierung: money('Budget für Renovierung und Modernisierung in Euro (bis 400.000); ohne Angabe 0'),
+            nettoeinkommen: money('Alle Nettoeinkommen des Haushalts im Monat in Euro (1.000 bis 20.000)'),
+            mit_makler: { type: 'boolean', description: 'Mit Maklerprovision rechnen; ohne Angabe ja' },
+            sollzins: money('Sollzins in Prozent pro Jahr; ohne Angabe 3,6'),
+            tilgung: money('Anfängliche Tilgung in Prozent pro Jahr; ohne Angabe 2,0'),
+            notar: money('Notar und Grundbuch in Prozent vom Kaufpreis; ohne Angabe 1,5'),
+            makler: money('Maklerprovision in Prozent vom Kaufpreis; ohne Angabe 3,57'),
+            hauskosten: money('Laufende Hauskosten im Monat in Euro; ohne Angabe 350')
+          },
+          required: ['kaufpreis', 'bundesland', 'eigenkapital', 'nettoeinkommen']
+        },
+        annotations: { readOnlyHint: true },
+        execute: function (a) {
+          a = a || {};
+          var notes = [];
+          setField('price', given(a.kaufpreis) ? a.kaufpreis : fields.price.value, 'Kaufpreis', notes);
+          setField('equity', given(a.eigenkapital) ? a.eigenkapital : fields.equity.value, 'Eigenkapital', notes);
+          setField('renovation', given(a.renovierung) ? a.renovierung : 0, 'Renovierung', notes);
+          setField('income', given(a.nettoeinkommen) ? a.nettoeinkommen : fields.income.value, 'Netto-Einkommen', notes);
+          if (TAX[a.bundesland] !== undefined) $('f-state').value = a.bundesland;
+          else notes.push('Bundesland fehlt oder ist unbekannt, gerechnet mit ' + $('f-state').value);
+          $('a-broker-on').checked = a.mit_makler !== false;
+          $('a-rate').value = pctN.format(given(a.sollzins) ? a.sollzins : 3.6);
+          $('a-repay').value = pctN.format(given(a.tilgung) ? a.tilgung : 2.0);
+          $('a-notary').value = pctN.format(given(a.notar) ? a.notar : 1.5);
+          $('a-broker').value = pctN.format(given(a.makler) ? a.makler : 3.57);
+          $('a-costs').value = eur0.format(Math.round(given(a.hauskosten) ? a.hauskosten : 350));
+          interacted = true;
+          var r = compute();
+          var verdict = { ok: 'rechnerisch innerhalb der gewählten Grenze (bis 35 % gilt als solider Rahmen)',
+            warn: 'erhöhte Belastung, Budget prüfen (35 bis 40 %)', crit: 'kritisch (über 40 %)' }[r.level];
+          return Promise.resolve([
+            'Heimstart-Modellrechnung mit der anfänglichen Monatsrate. Keine Finanzierungs-, Steuer- oder Rechtsberatung und kein Angebot einer Bank.',
+            'Kaufpreis: ' + money0(r.price),
+            'Grunderwerbsteuer ' + r.state + ' (' + pctN.format(r.taxRate) + ' %): ' + money0(r.tax),
+            'Notar und Grundbuch (' + pctN.format(r.nt) + ' %): ' + money0(r.notary),
+            'Makler: ' + (r.brokerOn ? money0(r.broker) + ' (' + pctN.format(r.bk) + ' %)' : 'ohne'),
+            'Renovierung: ' + money0(r.renovation),
+            'Gesamtbedarf: ' + money0(r.total),
+            'Eigenkapital: ' + money0(r.equity),
+            'Kreditbedarf: ' + money0(r.loan),
+            'Monatsrate (Sollzins ' + pctN.format(r.ir) + ' %, Tilgung ' + pctN.format(r.rp) + ' %): ' + money2(r.rate),
+            'Laufende Hauskosten: ' + money0(r.costs) + ' im Monat',
+            'Wohnkosten im Monat: ' + money2(r.housing),
+            'Belastung: ' + r.share + ' von ' + money0(r.income) + ' Netto-Einkommen, ' + verdict + '.',
+            'Die Kaufnebenkosten von ' + money0(r.ancillary) + (r.equity >= r.ancillary ? ' sind durch Eigenkapital gedeckt.' : ' sind noch nicht vollständig durch Eigenkapital gedeckt.')
+          ].concat(notes.length ? ['Hinweise: ' + notes.join('; ') + '.'] : [],
+            ['In der Heimstart-App rechnet ihr zusätzlich mit Lebenshaltung, Kindergeld, Rücklage, Restschuld nach der Zinsbindung und echten Bankangeboten.']).join('\n'));
+        }
+      });
+    } catch (e) { /* Registrierung nicht möglich (Testphase): die Seite bleibt unverändert. */ }
+  }
 })();
