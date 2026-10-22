@@ -535,6 +535,35 @@ html[data-phase="day"] :focus-visible { outline-color: var(--accent-day); }
 /* Das Google-PNG enthält oben und unten Schutzraum (29 von 250 px): so stehen beide Badges gleich hoch. */
 .store--google img { height: 57.3px; margin: -6.65px 0; }
 
+/* Soziale Netzwerke unter den Badges: gleiche Höhe wie die Badges, ruhige Glyphen in Tinte,
+   beim Überfahren invertiert. Kreisflächen (Facebook, Pinterest) optisch etwas kleiner. */
+.social { display: flex; flex-wrap: wrap; gap: .625rem; margin-top: calc(1.5rem * var(--fit, 1)); }
+.social__link {
+  --s: 44px;
+  display: inline-grid; place-items: center; width: var(--s); height: var(--s); border-radius: 50%;
+  color: var(--ink-day); background: rgba(255,255,255,.66);
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--ink-day) 11%, transparent), 0 1px 2px hsl(var(--sc-shadow-color) / .06);
+  -webkit-backdrop-filter: blur(10px) saturate(1.2); backdrop-filter: blur(10px) saturate(1.2);
+  transition: background-color 180ms var(--sc-ease-out), color 180ms var(--sc-ease-out), transform 180ms var(--sc-ease-out), box-shadow 180ms var(--sc-ease-out);
+}
+.social__link svg { width: 19px; height: 19px; fill: currentColor; }
+.social__link--facebook svg, .social__link--pinterest svg { width: 18px; height: 18px; }
+.social__link:active { transform: scale(.96); }
+.social__link:focus-visible { outline: 2px solid var(--accent-day); outline-offset: 3px; }
+/* Auftritt, sobald der Schlusstext steht (heimstart.js setzt .is-in): die Kreise steigen nacheinander
+   auf, kurz danach setzt sich jede Glyphe mit leichtem Nachfedern hinein. Eigene translate/scale,
+   damit Hover und Druck (transform) unberührt bleiben. Ohne JavaScript oder Bewegung: einfach da. */
+@media (prefers-reduced-motion: no-preference) {
+  .hs-ready .social:not(.is-in) .social__link { opacity: 0; }
+  .social.is-in .social__link { animation: social-in 680ms var(--sc-ease-out) var(--d, 0ms) both; }
+  .social.is-in .social__link svg { animation: social-glyph 560ms cubic-bezier(.34, 1.4, .64, 1) calc(var(--d, 0ms) + 120ms) both; }
+  .social__link:nth-child(2) { --d: 60ms; }
+  .social__link:nth-child(3) { --d: 120ms; }
+  .social__link:nth-child(4) { --d: 180ms; }
+  .social__link:nth-child(5) { --d: 240ms; }
+}
+@keyframes social-in { from { opacity: 0; translate: 0 14px; scale: .82; } }
+@keyframes social-glyph { from { opacity: 0; scale: .55; } }
 .foot {
   position: relative; flex: none;
   padding: calc(1rem * var(--fit, 1)) var(--sc-gutter) calc(1rem * var(--fit, 1) + env(safe-area-inset-bottom));
@@ -549,10 +578,13 @@ html[data-phase="day"] :focus-visible { outline-color: var(--accent-day); }
 @media (max-width: 300px) and (max-height: 420px) {
   .close__layout { padding-top: var(--bar-h); }
   .foot { row-gap: .2rem; }
+  /* Hier reicht der Platz nur für Badges und Pflichtlinks. */
+  .social { display: none; }
 }
 @media (hover: hover) and (pointer: fine) {
   .foot a:hover { text-decoration: underline; }
   .store:hover { transform: translateY(-1px); }
+  .social__link:hover { background: var(--ink-day); color: var(--day); transform: translateY(-1px); box-shadow: 0 8px 18px -8px hsl(var(--sc-shadow-color) / .5); }
 }
 
 /* ======================================== Hochformat: gestapelte Bühnen == */
@@ -617,6 +649,15 @@ html[data-phase="day"] :focus-visible { outline-color: var(--accent-day); }
   .close__copy > p { font-size: calc(1rem * var(--fit, 1)); }
   .store--apple img { height: 40px; }
   .store--google img { height: 52.1px; margin: -6.05px 0; }
+  .social { gap: .5rem; }
+  .social__link { --s: 40px; }
+}
+/* Quer liegende Handys haben kaum Höhe: kleinere Leiste, damit die Überschrift nicht schrumpfen muss. */
+@media (orientation: landscape) and (max-height: 520px) {
+  .social { gap: .45rem; margin-top: calc(.9rem * var(--fit, 1)); }
+  .social__link { --s: 32px; }
+  .social__link svg { width: 15px; height: 15px; }
+  .social__link--facebook svg, .social__link--pinterest svg { width: 14px; height: 14px; }
 }
 /* Sehr schmal (kleines Handy mit vergrößerter Anzeige): Leiste bleibt einzeilig. */
 @media (max-width: 330px) {
