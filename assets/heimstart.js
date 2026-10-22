@@ -466,6 +466,7 @@
     stormFrame();
     phaseFrame();
     answersFrame();
+    socialFrame();
   }
   function queue() { if (!queued) { queued = true; requestAnimationFrame(frame); } }
 
@@ -476,6 +477,14 @@
     C.box = C.act.el.querySelector('.close__layout');
     C.copy = C.act.el.querySelector('.close__copy');
     C.foot = C.act.el.querySelector('.foot');
+    C.social = C.act.el.querySelector('.social');
+  }
+  // Social-Leiste: tritt auf, sobald der Text steht (sein Cue ist ab p 0,23 voll), und wird erst
+  // zurückgesetzt, wenn er fast ausgeblendet ist. So spielt der Auftritt bei jeder Ankunft neu.
+  function socialFrame() {
+    if (!C.social) return;
+    if (C.act.p >= 0.23) C.social.classList.add('is-in');
+    else if (C.act.p < 0.08) C.social.classList.remove('is-in');
   }
   function closeFit() {
     if (!C.box) return;
