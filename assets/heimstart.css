@@ -201,6 +201,16 @@ html[data-phase="day"] :focus-visible { outline-color: var(--accent-day); }
   font-size: calc(max(.95rem, min(clamp(1.1rem, 1rem + .4vw, 1.35rem), 3.2svh)) * var(--fit, 1)); line-height: 1.5;
   color: var(--ink-night-2); text-wrap: pretty;
 }
+.hero__purpose {
+  display: block; margin-top: .85rem; max-width: 32ch;
+  font-family: var(--sc-font-text); font-size: calc(clamp(1rem, 1.6vw, 1.3rem) * var(--fit, 1));
+  font-weight: 600; font-stretch: normal; line-height: 1.4; letter-spacing: 0;
+}
+.discover { padding: clamp(3rem, 7vw, 6rem) var(--sc-gutter, clamp(1.25rem, 5vw, 5.5rem)); background: var(--day); color: var(--ink-day); }
+.discover h2 { max-width: 26ch; font-size: clamp(1.8rem, 3.5vw, 3rem); line-height: 1.15; }
+.discover p { max-width: 65ch; line-height: 1.65; }
+.discover nav { display: flex; flex-wrap: wrap; gap: 1rem 2rem; margin-top: 1.5rem; }
+.discover a { display: inline-flex; align-items: center; min-height: 44px; color: #3346D6; text-underline-offset: .2em; }
 .hero__couple, .hero__hedge {
   position: absolute; z-index: 5; max-width: none; pointer-events: none;
   will-change: transform, opacity; opacity: 0;
