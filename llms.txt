@@ -25,6 +25,7 @@ Fünf Zahlen genügen: Kaufpreis, Bundesland, Eigenkapital, Renovierung und Nett
 ## Seiten
 
 - [Startseite](https://heimstart.de/): Vorstellung der App und Rechner
+- [Hauskauf, Renovierung und Umzug planen](https://heimstart.de/hauskauf-renovierung-umzug/): Funktionen, Projektablauf und Downloads für Android und iPhone
 - [Support](https://heimstart.de/support/): Hilfe und Kontakt
 - [Konto löschen](https://heimstart.de/konto-loeschen/): Konto oder einzelne Daten löschen lassen
 - [Datenschutz](https://heimstart.de/datenschutz/): Datenschutzerklärung
