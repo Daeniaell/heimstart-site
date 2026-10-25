@@ -10,7 +10,8 @@ Support, Kontolöschung und Impressum. Ausgeliefert über GitHub Pages, Zieladre
   und hierher kopieren, damit beide Stände gleich bleiben.
 - `datenschutz/`, `support/`, `konto-loeschen/`, `impressum/`, `404.html`: Pflichtseiten im Stil der
   Startseite. Die Adressen sind in App Store Connect und der Play Console hinterlegt und dürfen sich nicht ändern.
-- `scrollcraft.css`, `scrollcraft.js`: Engine des Skills, unverändert.
+- `scrollcraft.css`, `scrollcraft.js`: Engine des Skills. Einzige Erweiterung (25.10.2026): `data-sc-hold`
+  an einer Pan-Schiene lässt sie nach dem Einrasten kurz stehen, damit der Titel von `#antworten` lesbar bleibt.
 - `assets/heimstart.*` (Startseite), `assets/pages.*` (Pflichtseiten), `assets/media/`, `assets/app/`
   (echte App-Aufnahmen), `assets/fonts/` (selbst gehostet), `assets/badges/` (offizielle Store-Badges).
 - `assets/site.css` und `assets/icon.svg` stammen von der alten Fassung und werden nicht mehr verwendet.

@@ -47,6 +47,9 @@
                               (path template : frameCount : startIndex).
      data-sc-pan="0.6"        on a wide rail inside data-sc-act="pan". p drives
                               horizontal travel. Value = extra travel multiplier.
+     data-sc-hold="0.12"      on the same rail: share of the pin it stands still
+                              before travelling, so its first panel can be read
+                              once pinned. The travel then spans the rest of p.
      data-sc-parallax="-0.2"  translateY by rate * act-progress * viewport.
                               Negative = moves up faster than scroll (recedes).
      data-sc-cue="0.1 0.5"    opacity/rise keyed to p. One value = enter+hold.
@@ -354,7 +357,10 @@
 
       // horizontal rail
       act.rail = el.querySelector('[data-sc-pan]');
-      if (act.rail) act.railExtra = parseFloat(act.rail.getAttribute('data-sc-pan')) || 0;
+      if (act.rail) {
+        act.railExtra = parseFloat(act.rail.getAttribute('data-sc-pan')) || 0;
+        act.railHold = Math.min(clamp01(parseFloat(act.rail.getAttribute('data-sc-hold')) || 0), 0.9);
+      }
 
       // cues
       Array.prototype.forEach.call(el.querySelectorAll('[data-sc-cue]'), function (c) {
@@ -869,7 +875,8 @@
           var over = a.rail.scrollWidth - vw;
           if (over > 0) {
             var extra = over * (a.railExtra || 0);
-            a.rail.style.transform = 'translate3d(' + (-(over + extra) * a.p).toFixed(2) + 'px,0,0)';
+            var q = a.railHold ? clamp01((a.p - a.railHold) / (1 - a.railHold)) : a.p;
+            a.rail.style.transform = 'translate3d(' + (-(over + extra) * q).toFixed(2) + 'px,0,0)';
           }
         }
 
