@@ -221,9 +221,11 @@
   </section>
 
   <!-- ====================================== 3 · Die Antworten (Tag, pan) -->
-  <section class="answers is-day" id="antworten" data-sc-act="pan" data-sc-span="4.6" aria-labelledby="antworten-title">
+  <!-- Der Titel steht nach dem Einrasten kurz still (hold), erst dann fährt die Schiene;
+       die Spanne wächst um diesen Weg (4,6 auf 5,1), damit die Antworten im gewohnten Tempo kommen. -->
+  <section class="answers is-day" id="antworten" data-sc-act="pan" data-sc-span="5.1" aria-labelledby="antworten-title">
     <div data-sc-stage class="answers__stage">
-      <div class="answers__rail" data-sc-pan="0.02">
+      <div class="answers__rail" data-sc-pan="0.02" data-sc-hold="0.12">
 
         <div class="answers__lead">
           <h2 id="antworten-title">Was Heimstart für euch klärt.</h2>
@@ -487,7 +489,7 @@
 </svg>
 
 <script src="assets/stores.js?v=20261022"></script>
-<script src="scrollcraft.js"></script>
+<script src="scrollcraft.js?v=20261025"></script>
 <script src="assets/heimstart.js?v=20261022"></script>
 <script src="assets/analytics.js"></script>
 </body>
