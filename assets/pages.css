@@ -235,6 +235,14 @@ address.card strong { font-family: var(--display); font-weight: 700; font-size: 
 .lost a.row strong { font-weight: 650; }
 @media (hover: hover) and (pointer: fine) { .lost a.row:hover { box-shadow: 0 0 0 1px var(--accent); transform: translateY(-1px); } }
 
+/* App laden (/app/): Store-Badges wie auf der Startseite, gleich hoch */
+.stores { display: flex; flex-wrap: wrap; gap: .8rem; align-items: center; }
+.store { display: inline-flex; border-radius: 10px; transition: transform 120ms var(--ease); }
+.store:active { transform: scale(.97); }
+.store img { width: auto; }
+.store--apple img { height: 44px; }
+.store--google img { height: 57.3px; margin: -6.65px 0; }
+
 /* ------------------------------------------------------------- Fußzeile --- */
 .foot {
   background: var(--day); border-top: 1px solid var(--hair);

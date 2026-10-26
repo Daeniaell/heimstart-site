@@ -21,6 +21,13 @@ Support, Kontolöschung und Impressum. Ausgeliefert über GitHub Pages, Zieladre
 Solange eine App nicht öffentlich ist, sind Badges und "App laden" Platzhalter mit dem Hinweis
 "bald erhältlich". Zum Start in `assets/stores.js` bei Apple bzw. Google `live: true` setzen.
 
+Kampagnen bis in den Store (seit 26.10.2026): Trägt eine Seite `utm_campaign` in der Adresse, hängt
+`assets/stores.js` die utm-Werte an die Store-Ziele an (Google Play als `referrer`, Apple als `ct`), ohne
+etwas zu speichern. Apple wertet `ct` erst mit `pt` aus, dem Anbieterkürzel aus App Store Connect
+(Analysen, Kampagnen); es gehört in `assets/stores.js` bei `apple.pt`. Kurzer Link für Videos, QR-Codes und
+Profile: `heimstart.de/app/?utm_source=…&utm_medium=…&utm_campaign=<Serie>`; auf dem Handy geht es von dort
+sofort in den passenden Store, am Rechner zeigt die Seite beide Badges und den Weg zum Rechner.
+
 ## Datenschutz der Website
 
 Optionale GA4-Standardmessung mit `G-01YZWB98V1` im Konto support@heimstart.de.
