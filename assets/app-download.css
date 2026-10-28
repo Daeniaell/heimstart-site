@@ -1,0 +1,7 @@
+/* Nur die Downloadseite nutzt diese Badge-Anordnung. */
+.stores { display: flex; flex-wrap: wrap; gap: .8rem; align-items: center; margin-bottom: 1.5rem; }
+.store { display: inline-flex; border-radius: 10px; }
+.store:active { transform: scale(.97); }
+.store img { width: auto; }
+.store--apple img { height: 44px; }
+.store--google img { height: 57.3px; margin: -6.65px 0; }
