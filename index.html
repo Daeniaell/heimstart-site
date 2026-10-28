@@ -96,7 +96,7 @@
 <link rel="preload" href="assets/fonts/geist-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <script>document.documentElement.classList.add('js')</script>
 <link rel="stylesheet" href="scrollcraft.css">
-<link rel="stylesheet" href="assets/heimstart.css?v=20261025-gap">
+<link rel="stylesheet" href="assets/heimstart.css?v=20261028-hint">
 <noscript><style>
   [data-sc-cue], [data-sc-in], [data-sc-stagger] > * { opacity: 1 !important; transform: none !important; }
   .hero__couple, .hero__hedge { opacity: 1 !important; }
@@ -157,6 +157,12 @@
 
       <p class="hero__line" data-sc-cue="0.40 0.74 0.3 0.25">Ihr fahrt hin. Ihr steht davor.</p>
       <p class="hero__line" data-sc-cue="0.74 1 0.3 0.12">Und dann ist sie da, die eine Frage.</p>
+
+      <!-- Scroll-Hinweis: erscheint zwei Sekunden nach dem Laden, verschwindet beim ersten Scrollen (heimstart.js). -->
+      <button class="hero__hint" type="button" aria-label="Nach unten scrollen">
+        <span class="hero__hint-label">Scrollen</span>
+        <span class="hero__hint-track" aria-hidden="true"><span class="hero__hint-light"></span></span>
+      </button>
     </div>
   </section>
 
@@ -490,7 +496,7 @@
 
 <script src="assets/stores.js?v=20261022"></script>
 <script src="scrollcraft.js?v=20261025"></script>
-<script src="assets/heimstart.js?v=20261022"></script>
+<script src="assets/heimstart.js?v=20261028-hint"></script>
 <script src="assets/analytics.js"></script>
 </body>
 </html>

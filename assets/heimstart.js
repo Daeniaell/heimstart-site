@@ -541,6 +541,43 @@
   });
   if (location.hash === '#laden') addEventListener('load', function () { setTimeout(function () { toEnd('instant'); }, 60); });
 
+  // Scroll-Hinweis: zwei Sekunden nach dem Laden, nur solange noch niemand gescrollt hat. Steht die
+  // Datenschutzabfrage noch unten, wartet er, bis sie entschieden ist, und kommt zwei Sekunden danach.
+  var cue = document.querySelector('.hero__hint');
+  if (cue) {
+    var cueDone = false, cueTimer = 0;
+    var cueScroll = function () { if (scrollY > 8) cueOff(); };
+    var cueOff = function () {
+      if (cueDone) return;
+      cueDone = true;
+      clearTimeout(cueTimer);
+      cue.classList.remove('is-on');
+      removeEventListener('scroll', cueScroll);
+    };
+    var cueLater = function () {
+      if (cueDone) return;
+      clearTimeout(cueTimer);
+      cueTimer = setTimeout(function () {
+        if (cueDone || scrollY > 8) return;
+        var consent = document.querySelector('.analytics-choice');
+        if (consent && !consent.hidden) {
+          new MutationObserver(function (m, obs) {
+            if (consent.hidden) { obs.disconnect(); cueLater(); }
+          }).observe(consent, { attributes: true, attributeFilter: ['hidden'] });
+          return;
+        }
+        cue.classList.add('is-on');
+      }, 2000);
+    };
+    addEventListener('scroll', cueScroll, { passive: true });
+    if (document.readyState === 'complete') cueLater(); else addEventListener('load', cueLater);
+    // Antippen fährt ein Stück weiter, wie ein erster Daumenzug.
+    cue.addEventListener('click', function () {
+      cueOff();
+      scrollBy({ top: Math.round(VH * 0.9), behavior: reduce ? 'instant' : 'smooth' });
+    });
+  }
+
   // Tastatur im Schluss: der Schluss ist gepinnt. Fokus auf seinen Knopf parkt die Bühne dort,
   // wo die Einblendung sicher offen ist (die Engine zentriert sonst vor den Akt).
   var closeAct = actById.laden;
