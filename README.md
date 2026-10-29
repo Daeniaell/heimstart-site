@@ -15,6 +15,11 @@ Support, Kontolöschung und Impressum. Ausgeliefert über GitHub Pages, Zieladre
 - `assets/heimstart.*` (Startseite), `assets/pages.*` (Pflichtseiten), `assets/media/`, `assets/app/`
   (echte App-Aufnahmen), `assets/fonts/` (selbst gehostet), `assets/badges/` (offizielle Store-Badges).
 - `assets/site.css` und `assets/icon.svg` stammen von der alten Fassung und werden nicht mehr verwendet.
+- `leitfaden/` (seit 29.10.2026): Leitfaden „Vorher wissen“ mit Übersicht, `teil-1/` bis `teil-4/`, `pdf/` und
+  `img/` (Titelseiten aus den PDFs). Erscheinungstage und PDF-Pfade stehen nur in `assets/leitfaden.js` (`TEILE`):
+  Ab 0:00 Uhr des Tages erscheint der Download, vorher der Termin. Das Skript reicht utm-Werte aus der Adresse an
+  Links mit `data-keep-utm` weiter; ohne Werte trägt der App-Knopf `utm_source=website`, `utm_medium=leitfaden`
+  und `utm_campaign=vorher-wissen-teilN`.
 
 ## Stores freischalten
 
@@ -33,6 +38,7 @@ Der Rechner rechnet nur im Browser; Eingaben und Ergebnisse werden nicht an Anal
 - `store_interest`: Klick auf ein noch nicht freigeschaltetes Badge (bald erhaeltlich), getrennt von echten Store-Klicks.
   Parameter `store_name` (apple/google), `store_status` (coming_soon/live).
   Sprung zu den Badges zaehlt nicht als Store-Klick. Ein Klick ist kein Download.
+- `leitfaden_download`: Klick auf „PDF laden“ beim Leitfaden, Parameter `teil` (1 bis 4).
 - Query-Parameter und Fragmente werden aus Seiten- und Herkunftsadressen entfernt.
 - Automatische optimierte Analysen deaktiviert; Ereignisaufbewahrung zwei Monate.
 - Technischer Nachweis in GA4 DebugView mit `?ga_debug=1`; Tests nicht als echte Nutzer auswerten.
