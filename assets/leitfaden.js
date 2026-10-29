@@ -4,7 +4,7 @@
   'use strict';
   // Erscheinungstage, freigeschaltet ab 0:00 Uhr deutscher Zeit. Termine nur hier ändern.
   var TEILE = {
-    1: { ab: '2026-11-05', pdf: '/leitfaden/pdf/vorher-wissen-teil-1-reicht-unser-geld.pdf' },
+    1: { ab: '2026-10-29', pdf: '/leitfaden/pdf/vorher-wissen-teil-1-reicht-unser-geld.pdf' },
     2: { ab: '2026-11-12', pdf: '/leitfaden/pdf/vorher-wissen-teil-2-ist-es-das-richtige-haus.pdf' },
     3: { ab: '2026-11-19', pdf: '/leitfaden/pdf/vorher-wissen-teil-3-wie-schaffen-wir-den-umbau.pdf' },
     4: { ab: '2026-11-26', pdf: '/leitfaden/pdf/vorher-wissen-teil-4-wie-kommen-wir-gut-an.pdf' }
