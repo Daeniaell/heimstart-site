@@ -72,7 +72,7 @@
   panel.setAttribute('role', 'region');
   panel.setAttribute('aria-labelledby', 'analytics-choice-title');
   panel.innerHTML = '<h2 id="analytics-choice-title">Dürfen wir die Website-Nutzung messen?</h2>' +
-    '<p>Mit Google Analytics sehen wir, ob der Rechner genutzt und auf Store-Schaltflächen geklickt wird. ' +
+    '<p>Mit Google Analytics sehen wir, ob der Rechner genutzt, ein Leitfaden geladen und auf Store-Schaltflächen geklickt wird. ' +
     'Deine Eingaben bleiben im Browser. Erst mit deiner Zustimmung laden wir Google Analytics; dabei werden Cookies gespeichert und Nutzungsdaten an Google übermittelt. ' +
     'Du kannst jederzeit über „Datenschutzeinstellungen“ widerrufen.</p>' +
     '<div class="analytics-choice__actions"><button type="button" data-analytics-deny>Ohne Analyse weiter</button>' +
@@ -114,6 +114,8 @@
   }
   document.addEventListener('click', function (event) {
     if (!event.isTrusted || !event.target.closest) return;
+    var guide = event.target.closest('a[data-leitfaden][href]');
+    if (guide) { send('leitfaden_download', { teil: guide.getAttribute('data-leitfaden') }); return; }
     var anchor = event.target.closest('a[data-store], a[data-store-link]');
     if (!anchor) return;
     var stores = window.HEIMSTART_STORES || {};

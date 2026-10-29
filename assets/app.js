@@ -15,7 +15,7 @@
     if (campaign.has('utm_campaign')) {
       if (name === 'google') url.searchParams.set('referrer', campaign.toString());
       else {
-        url.searchParams.set('ct', [campaign.get('utm_source'), campaign.get('utm_campaign')].filter(Boolean).join('-').slice(0, 100));
+        url.searchParams.set('ct', [campaign.get('utm_source'), campaign.get('utm_campaign')].filter(Boolean).join('-').slice(0, 30));
         if (store.pt) {
           url.searchParams.set('pt', store.pt);
           url.searchParams.set('mt', '8');
