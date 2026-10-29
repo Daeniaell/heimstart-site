@@ -1,6 +1,14 @@
 /* Leitfaden „Vorher wissen“: Übersicht und Teilseiten, ergänzt pages.css. */
 [hidden] { display: none !important; }
 
+/* Der Nachtkopf ist hier höher als auf den anderen Unterseiten: Ohne eigenen Grund liefe er beim Scrollen
+   unter Logo und „Alle Teile“ durch. Im hellen Teil gilt weiter die Leiste aus pages.css. */
+html:not([data-phase="day"]) .bar {
+  background: color-mix(in oklab, var(--night) 84%, transparent);
+  -webkit-backdrop-filter: blur(14px) saturate(140%); backdrop-filter: blur(14px) saturate(140%);
+  box-shadow: 0 1px 0 rgba(166, 176, 255, .16);
+}
+
 /* ------------------------------------------- Kopf der Teilseiten --- */
 .lf-hero { display: grid; gap: 2.2rem; align-items: end; }
 .lf-get { display: flex; flex-wrap: wrap; align-items: center; gap: .8rem; margin-top: 2rem; }
