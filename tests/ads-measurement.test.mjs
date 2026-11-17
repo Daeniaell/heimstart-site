@@ -16,7 +16,7 @@ function page(initial = '', host = 'heimstart.de', failFetch = false) {
   };
   const window = {addEventListener(name,cb) { listeners[name]=cb; }, fetch(url,options) { requests.push({url:new URL(url),options}); return failFetch ? Promise.reject(new Error('transport unavailable')) : Promise.resolve({status:200,ok:true}); }};
   class TestImage { set src(value) { images.push(new URL(value)); } }
-  vm.runInNewContext(code,{window,document,crypto,URL,Image:TestImage,location:{hostname:host,href:`https://${host}/?oppref=gAAAAAtest_1&email=private&income=6200`}});
+  vm.runInNewContext(code,{window,document,crypto,URL,Image:TestImage,location:{hostname:host,origin:`https://${host}`,href:`https://${host}/?oppref=gAAAAAtest_1&email=private&income=6200`}});
   return {window,document,requests,images,listeners,jar,api:window.HEIMSTART_ADS};
 }
 test('old GA consent and no marketing consent send nothing or store click references',()=>{
@@ -34,7 +34,7 @@ test('independent consent emits allowlisted events without SDK, financial data o
   const params=p.requests.map(r=>r.url.searchParams);
   assert.equal(params.filter(p=>p.get('event')==='page_viewed').length,1);
   assert.deepEqual(params.filter(p=>p.get('event')==='custom').map(p=>p.get('custom_event_name')),['store_click','store_click','leitfaden_download']);
-  assert.ok(p.requests.every(r=>r.options.keepalive && r.options.credentials==='omit' && r.options.referrerPolicy==='origin'));
+  assert.ok(p.requests.every(r=>r.options.keepalive && r.options.credentials==='omit' && r.options.referrerPolicy==='origin' && r.options.referrer==='https://heimstart.de/'));
   assert.ok(p.requests.every(r=>!r.url.href.includes('6200')&&!r.url.href.includes('private')&&!r.url.href.includes('email')));
   assert.equal(new Set(params.map(p=>p.get('event_id'))).size,4);
   assert.equal(p.jar.get('heimstart_ads_ref_v1'),'gAAAAAtest_1');
