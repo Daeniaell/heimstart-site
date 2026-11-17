@@ -4,6 +4,7 @@
   var PIXEL = 'AJYfBxAdGFYem2unrJrBju';
   var KEY = 'heimstart_ads_v1', REF = 'heimstart_ads_ref_v1';
   var enabled = false, pageSent = false, pending = [];
+  var debug = new URL(location.href).searchParams.get('ads_debug') === '1';
   function cookie(name) {
     var match = document.cookie.match(new RegExp('(?:^|;\\s*)' + name + '=([^;]*)(?:;|$)'));
     return match ? decodeURIComponent(match[1]) : '';
@@ -29,7 +30,11 @@
     if (ref) url.searchParams.set('oppref', ref);
     // Keep a real click event alive when the link navigates away immediately.
     if (window.fetch) {
-      window.fetch(url.href, { method: 'GET', mode: 'no-cors', credentials: 'omit', keepalive: true, referrerPolicy: 'origin' }).catch(function () {});
+      window.fetch(url.href, { method: 'GET', mode: 'cors', credentials: 'omit', keepalive: true, referrerPolicy: 'origin' }).then(function (response) {
+        if (debug) console.info('Heimstart Ads measurement', { event: event, eventId: url.searchParams.get('event_id'), status: response.status, accepted: response.ok });
+      }).catch(function () {
+        if (debug) console.warn('Heimstart Ads measurement: network request failed', { event: event, eventId: url.searchParams.get('event_id') });
+      });
       return true;
     }
     var image = new Image(1, 1);
