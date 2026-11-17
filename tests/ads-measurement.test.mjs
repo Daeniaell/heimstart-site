@@ -4,9 +4,9 @@ import fs from 'node:fs';
 import test from 'node:test';
 import crypto from 'node:crypto';
 const code = fs.readFileSync(new URL('../assets/ads-measurement.js', import.meta.url), 'utf8');
-function page(initial = '', host = 'heimstart.de') {
+function page(initial = '', host = 'heimstart.de', failFetch = false) {
   const jar = new Map(initial.split(';').filter(Boolean).map(p=>p.trim().split('=')));
-  const requests = [], listeners = {};
+  const requests = [], images = [], listeners = {};
   const document = {
     get cookie() { return [...jar].map(p=>p.join('=')).join('; '); },
     set cookie(value) {
@@ -14,9 +14,10 @@ function page(initial = '', host = 'heimstart.de') {
       if (attributes.some(a=>a.trim()==='Max-Age=0')) jar.delete(name); else jar.set(name,valuePart);
     }
   };
-  const window = {addEventListener(name,cb) { listeners[name]=cb; }, fetch(url,options) { requests.push({url:new URL(url),options}); return Promise.resolve({status:200,ok:true}); }};
-  vm.runInNewContext(code,{window,document,crypto,URL,location:{hostname:host,href:`https://${host}/?oppref=gAAAAAtest_1&email=private&income=6200`}});
-  return {window,document,requests,listeners,jar,api:window.HEIMSTART_ADS};
+  const window = {addEventListener(name,cb) { listeners[name]=cb; }, fetch(url,options) { requests.push({url:new URL(url),options}); return failFetch ? Promise.reject(new Error('transport unavailable')) : Promise.resolve({status:200,ok:true}); }};
+  class TestImage { set src(value) { images.push(new URL(value)); } }
+  vm.runInNewContext(code,{window,document,crypto,URL,Image:TestImage,location:{hostname:host,href:`https://${host}/?oppref=gAAAAAtest_1&email=private&income=6200`}});
+  return {window,document,requests,images,listeners,jar,api:window.HEIMSTART_ADS};
 }
 test('old GA consent and no marketing consent send nothing or store click references',()=>{
   for(const cookie of ['', 'heimstart_analytics_v1=accepted', 'heimstart_ads_v1=rejected']) {
@@ -52,4 +53,15 @@ test('revocation in another tab is respected immediately and on focus',()=>{
 });
 test('local previews do not transmit production measurement',()=>{
   const p=page('heimstart_ads_v1=accepted','127.0.0.1'); assert.equal(p.requests.length,0); assert.equal(p.api.send('store_click','apple'),false);
+});
+
+test('failed fetch uses the same event ID for its image fallback', async()=>{
+  const p=page('', 'heimstart.de', true); p.api.decide(true);
+  await new Promise(resolve=>setImmediate(resolve));
+  assert.equal(p.images.length,1);
+  assert.equal(p.images[0].searchParams.get('event_id'),p.requests[0].url.searchParams.get('event_id'));
+});
+test('withdrawal cancels a pending fallback after transport failure', async()=>{
+  const p=page('', 'heimstart.de', true); p.api.decide(true); p.api.decide(false);
+  await new Promise(resolve=>setImmediate(resolve)); assert.equal(p.images.length,0);
 });
