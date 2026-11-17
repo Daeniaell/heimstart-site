@@ -62,8 +62,10 @@ installierte Appversionen unter move-master.de erreichbar.
 
 ## ChatGPT Ads conversion measurement (17.11.2026)
 
-`assets/ads-measurement.js` uses the documented image-event endpoint with a
-keepalive GET request (image fallback). It never loads the third-party SDK or scans
+`assets/ads-measurement.js` uses a minimal, consent-gated POST transport with the event envelope
+and explicit source_url used by the published OpenAI SDK (no SDK loading).
+The first-party client identifies itself as heimstart-web v1. A same-ID image
+request is the fallback; requests carry only the public website origin. It never loads the third-party SDK or scans
 forms. A separate, initially unchecked OpenAI consent option is required;
 previous Google Analytics consent does not grant marketing measurement consent.
 Only production hosts heimstart.de/www.heimstart.de transmit events.
