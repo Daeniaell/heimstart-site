@@ -31,8 +31,8 @@
     if (id) url.searchParams.set('data[contents]', JSON.stringify([{id: id, content_type: event === 'store_click' ? 'app_store' : 'guide'}]));
     var ref = cookie(REF);
     if (ref) url.searchParams.set('oppref', ref);
-    function report(status) {
-      if (debug) console.info('Heimstart Ads measurement ' + JSON.stringify({ event: event, eventId: url.searchParams.get('event_id'), status: status }));
+    function report(status, acceptedEvents) {
+      if (debug) console.info('Heimstart Ads measurement ' + JSON.stringify({ event: event, eventId: url.searchParams.get('event_id'), status: status, acceptedEvents: acceptedEvents }));
     }
     function imageFallback() {
       if (!enabled || cookie(KEY) !== 'accepted') return;
@@ -43,11 +43,33 @@
       pending.push(image);
       image.src = url.href;
     }
-    // Reuse the same event ID for the documented image fallback: no second conversion.
+    // Include the public website origin in the same event shape used by OpenAI's SDK.
+    // This does not depend on a browser forwarding Referer/Origin headers.
+    var stamp = Date.now();
+    var wire = {
+      type: event === 'page_viewed' ? event : 'custom',
+      id: url.searchParams.get('event_id'), timestamp_ms: stamp,
+      source_url: location.origin, opt_out: true,
+      data: { type: event === 'page_viewed' ? 'contents' : 'custom' }
+    };
+    if (event !== 'page_viewed') wire.custom_event_name = event;
+    if (id) wire.data.contents = [{ id: id, content_type: event === 'store_click' ? 'app_store' : 'guide' }];
+    if (ref) wire.oppref = ref;
+    var endpoint = new URL('https://bzr.openai.com/v1/sdk/events');
+    endpoint.searchParams.set('pid', PIXEL);
+    endpoint.searchParams.set('st', 'heimstart-web');
+    endpoint.searchParams.set('sv', '1');
+    endpoint.searchParams.set('t', String(stamp));
+    endpoint.searchParams.set('ec', '1');
     if (window.fetch) {
-      window.fetch(url.href, { method: 'GET', mode: 'cors', credentials: 'omit', keepalive: true, referrer: location.origin + '/', referrerPolicy: 'origin' }).then(function (response) {
-        report(response.status);
-        if (!response.ok) imageFallback();
+      window.fetch(endpoint.href, {
+        method: 'POST', headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify({ events: [wire] }), mode: 'cors',
+        credentials: 'omit', keepalive: true,
+        referrer: location.origin + '/', referrerPolicy: 'origin'
+      }).then(function (response) {
+        if (!response.ok) { report(response.status); imageFallback(); return; }
+        return response.json().then(function (receipt) { report(response.status, receipt.accepted_events); });
       }).catch(function (error) {
         if (debug) console.warn('Heimstart Ads transport ' + String(error));
         imageFallback();
