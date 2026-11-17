@@ -28,20 +28,28 @@
     if (id) url.searchParams.set('data[contents]', JSON.stringify([{id: id, content_type: event === 'store_click' ? 'app_store' : 'guide'}]));
     var ref = cookie(REF);
     if (ref) url.searchParams.set('oppref', ref);
-    // Keep a real click event alive when the link navigates away immediately.
+    function report(status) {
+      if (debug) console.info('Heimstart Ads measurement ' + JSON.stringify({ event: event, eventId: url.searchParams.get('event_id'), status: status }));
+    }
+    function imageFallback() {
+      if (!enabled || cookie(KEY) !== 'accepted') return;
+      var image = new Image(1, 1);
+      image.referrerPolicy = 'origin';
+      image.onload = function () { report('image_loaded'); pending = pending.filter(function (item) { return item !== image; }); };
+      image.onerror = function () { report('image_failed'); pending = pending.filter(function (item) { return item !== image; }); };
+      pending.push(image);
+      image.src = url.href;
+    }
+    // Reuse the same event ID for the documented image fallback: no second conversion.
     if (window.fetch) {
       window.fetch(url.href, { method: 'GET', mode: 'cors', credentials: 'omit', keepalive: true, referrerPolicy: 'origin' }).then(function (response) {
-        if (debug) console.info('Heimstart Ads measurement', { event: event, eventId: url.searchParams.get('event_id'), status: response.status, accepted: response.ok });
-      }).catch(function () {
-        if (debug) console.warn('Heimstart Ads measurement: network request failed', { event: event, eventId: url.searchParams.get('event_id') });
+        report(response.status);
+        if (!response.ok) imageFallback();
+      }).catch(function (error) {
+        if (debug) console.warn('Heimstart Ads transport ' + String(error));
+        imageFallback();
       });
-      return true;
-    }
-    var image = new Image(1, 1);
-    image.referrerPolicy = 'origin';
-    image.onload = image.onerror = function () { pending = pending.filter(function (item) { return item !== image; }); };
-    pending.push(image);
-    image.src = url.href;
+    } else imageFallback();
     return true;
   }
   function consent(allow) {
