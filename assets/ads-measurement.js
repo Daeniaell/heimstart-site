@@ -45,7 +45,7 @@
     }
     // Reuse the same event ID for the documented image fallback: no second conversion.
     if (window.fetch) {
-      window.fetch(url.href, { method: 'GET', mode: 'cors', credentials: 'omit', keepalive: true, referrerPolicy: 'origin' }).then(function (response) {
+      window.fetch(url.href, { method: 'GET', mode: 'cors', credentials: 'omit', keepalive: true, referrer: location.origin + '/', referrerPolicy: 'origin' }).then(function (response) {
         report(response.status);
         if (!response.ok) imageFallback();
       }).catch(function (error) {
