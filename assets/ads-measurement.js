@@ -5,6 +5,9 @@
   var KEY = 'heimstart_ads_v1', REF = 'heimstart_ads_ref_v1';
   var enabled = false, pageSent = false, pending = [];
   var debug = new URL(location.href).searchParams.get('ads_debug') === '1';
+  if (debug) window.addEventListener('securitypolicyviolation', function (event) {
+    console.warn('Heimstart Ads policy ' + JSON.stringify({ blockedURI: event.blockedURI, directive: event.effectiveDirective, policy: event.originalPolicy }));
+  });
   function cookie(name) {
     var match = document.cookie.match(new RegExp('(?:^|;\\s*)' + name + '=([^;]*)(?:;|$)'));
     return match ? decodeURIComponent(match[1]) : '';
