@@ -59,3 +59,25 @@ support@heimstart.de. `CNAME` und `.nojekyll` nicht entfernen.
 
 Die bisherige Website im Repository Daeniaell/movemaster-site bleibt für
 installierte Appversionen unter move-master.de erreichbar.
+
+## ChatGPT Ads conversion measurement (17.11.2026)
+
+`assets/ads-measurement.js` uses the documented image-event endpoint with a
+keepalive GET request (image fallback). It never loads the third-party SDK or scans
+forms. A separate, initially unchecked OpenAI consent option is required;
+previous Google Analytics consent does not grant marketing measurement consent.
+Only production hosts heimstart.de/www.heimstart.de transmit events.
+
+- Source: Heimstart Website; public pixel ID `AJYfBxAdGFYem2unrJrBju`.
+- Primary campaign conversion: custom `store_click` (Apple or Google destination).
+- Separate secondary conversion: custom `leitfaden_download` (PDF link clicked).
+- `page_viewed` is a diagnostic event, not an attached campaign conversion goal.
+- No install, registration or purchase event is inferred from these actions.
+- Only a valid existing `oppref` is saved, after consent, for up to 30 days.
+  No other query values, calculator inputs or contact details are read or sent.
+- Withdrawal deletes attribution cookies and prevents subsequent measurement calls.
+- `/app/` retains its existing mobile store redirect. Automatic redirects are not
+  counted as store clicks; consent must already exist for any measurement there.
+- Event names must match the custom event settings in Ads Manager exactly.
+- Website activation requires the normal reviewed merge to the Pages main branch.
+  Source/event creation and campaign association do not prove live event ingestion.

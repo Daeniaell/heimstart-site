@@ -51,6 +51,7 @@
     });
   }
   function decide(next) {
+    if (window.HEIMSTART_ADS) window.HEIMSTART_ADS.decide(panel.querySelector('[data-ads-choice]').checked);
     choice = next;
     document.cookie = KEY + '=' + next + '; Max-Age=15552000; Path=/; SameSite=Lax; Secure';
     if (next === 'accepted') start();
@@ -59,6 +60,8 @@
     settings.focus({ preventScroll: true });
   }
   function send(name, params) {
+    if (window.HEIMSTART_ADS && name === 'store_click') window.HEIMSTART_ADS.send(name, params.store_name);
+    if (window.HEIMSTART_ADS && name === 'leitfaden_download') window.HEIMSTART_ADS.send(name, 'teil-' + params.teil);
     if (choice !== 'accepted' || window[disabled] || !window.gtag) return false;
     window.gtag('event', name, Object.assign({ send_to: ID }, params));
     return true;
@@ -71,12 +74,17 @@
   panel.className = 'analytics-choice';
   panel.setAttribute('role', 'region');
   panel.setAttribute('aria-labelledby', 'analytics-choice-title');
-  panel.innerHTML = '<h2 id="analytics-choice-title">Dürfen wir die Website-Nutzung messen?</h2>' +
-    '<p>Mit Google Analytics sehen wir, ob der Rechner genutzt, ein Leitfaden geladen und auf Store-Schaltflächen geklickt wird. ' +
-    'Deine Eingaben bleiben im Browser. Erst mit deiner Zustimmung laden wir Google Analytics; dabei werden Cookies gespeichert und Nutzungsdaten an Google übermittelt. ' +
-    'Du kannst jederzeit über „Datenschutzeinstellungen“ widerrufen.</p>' +
-    '<div class="analytics-choice__actions"><button type="button" data-analytics-deny>Ohne Analyse weiter</button>' +
-    '<button type="button" data-analytics-accept>Analyse erlauben</button><a href="' + privacyURL + '">Datenschutz</a></div>';
+  panel.innerHTML = '<h2 id="analytics-choice-title">Deine Datenschutzauswahl</h2>' +
+    '<p>Beides ist freiwillig. Deine Rechner-Eingaben bleiben im Browser. Du kannst jederzeit über „Datenschutzeinstellungen“ widerrufen.</p>' +
+    '<label class="analytics-choice__option"><input type="checkbox" data-ga-choice> <span><strong>Website-Analyse mit Google Analytics</strong><br>Misst Seitenaufrufe, Rechner-Nutzung, Leitfaden- und Store-Klicks; übermittelt Nutzungsdaten an Google und speichert Analyse-Cookies.</span></label>' +
+    '<label class="analytics-choice__option"><input type="checkbox" data-ads-choice> <span><strong>Werbeerfolg mit OpenAI messen</strong><br>Misst Seitenaufrufe, Klicks zu den App-Stores und auf Leitfaden-PDFs; übermittelt technische Nutzungsdaten an OpenAI und speichert Zuordnungs-Cookies. Keine Rechnerwerte oder Kontaktdaten.</span></label>' +
+    '<div class="analytics-choice__actions"><button type="button" data-analytics-deny>Alle ablehnen</button>' +
+    '<button type="button" data-analytics-accept>Auswahl speichern</button><a href="' + privacyURL + '">Datenschutz</a></div>';
+  function updateChoices() {
+    panel.querySelector('[data-ga-choice]').checked = choice === 'accepted';
+    panel.querySelector('[data-ads-choice]').checked = !!window.HEIMSTART_ADS && window.HEIMSTART_ADS.choice() === 'accepted';
+  }
+  updateChoices();
   panel.hidden = !!choice;
   document.body.appendChild(panel);
   var settings = document.createElement('button');
@@ -84,10 +92,13 @@
   settings.textContent = 'Datenschutzeinstellungen';
   (document.querySelector('footer nav') || document.querySelector('footer') || document.body).appendChild(settings);
   settings.addEventListener('click', function () {
-    panel.hidden = false; panel.querySelector('[data-analytics-deny]').focus();
+    updateChoices(); panel.hidden = false; panel.querySelector('[data-analytics-deny]').focus();
   });
-  panel.querySelector('[data-analytics-deny]').addEventListener('click', function () { decide('rejected'); });
-  panel.querySelector('[data-analytics-accept]').addEventListener('click', function () { decide('accepted'); });
+  panel.querySelector('[data-analytics-deny]').addEventListener('click', function () {
+    panel.querySelector('[data-ads-choice]').checked = false;
+    decide('rejected');
+  });
+  panel.querySelector('[data-analytics-accept]').addEventListener('click', function () { decide(panel.querySelector('[data-ga-choice]').checked ? 'accepted' : 'rejected'); });
   panel.addEventListener('keydown', function (event) {
     if (event.key === 'Escape') { panel.hidden = true; settings.focus(); }
   });
@@ -127,7 +138,10 @@
       });
     }
     if (!store || !stores[store]) return;
-    var live = stores[store].live && anchor.href === stores[store].url;
+    var actual = new URL(anchor.href), expected = new URL(stores[store].url);
+    var sameTarget = actual.origin === expected.origin && actual.pathname === expected.pathname &&
+      (store !== 'google' || actual.searchParams.get('id') === expected.searchParams.get('id'));
+    var live = stores[store].live && sameTarget;
     send(live ? 'store_click' : 'store_interest', { store_name: store, store_status: live ? 'live' : 'coming_soon' });
   });
 })();
