@@ -14,7 +14,7 @@ function page(initial = '', host = 'heimstart.de') {
       if (attributes.some(a=>a.trim()==='Max-Age=0')) jar.delete(name); else jar.set(name,valuePart);
     }
   };
-  const window = {addEventListener(name,cb) { listeners[name]=cb; }, fetch(url,options) { requests.push({url:new URL(url),options}); return Promise.resolve(); }};
+  const window = {addEventListener(name,cb) { listeners[name]=cb; }, fetch(url,options) { requests.push({url:new URL(url),options}); return Promise.resolve({status:200,ok:true}); }};
   vm.runInNewContext(code,{window,document,crypto,URL,location:{hostname:host,href:`https://${host}/?oppref=gAAAAAtest_1&email=private&income=6200`}});
   return {window,document,requests,listeners,jar,api:window.HEIMSTART_ADS};
 }
