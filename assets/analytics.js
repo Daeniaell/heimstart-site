@@ -68,7 +68,7 @@
   }
 
   var sheet = document.createElement('link');
-  sheet.rel = 'stylesheet'; sheet.href = new URL('analytics.css', base).href;
+  sheet.rel = 'stylesheet'; sheet.href = new URL('analytics.css?v=20261117', base).href;
   document.head.appendChild(sheet);
   var panel = document.createElement('section');
   panel.className = 'analytics-choice';
